@@ -1,0 +1,27 @@
+<nav class="navbar">
+    <div class="left-button">
+        <button kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/Home')">
+            <mat-icon style="vertical-align: middle; margin-right: 6px;">home</mat-icon>Home
+        </button>
+    </div>
+    <div class="right-button">
+        <button kendoButton look="outline" themeColor="primary" (click)="exportToCSV()">
+            <mat-icon style="vertical-align: middle; margin-right: 6px;">download</mat-icon>Export to CSV
+        </button>
+        <button kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/Add-Edit')">
+            <mat-icon style="vertical-align: middle; margin-right: 6px;">add</mat-icon>Add Resource
+        </button>
+        <button kendoButton look="outline" themeColor="primary" (click)="fileInput.click()">
+            <mat-icon style="vertical-align: middle; margin-right: 6px;">upload</mat-icon>
+            Import Excel
+        </button>
+        <input type="file"
+         #fileInput
+         style="display: none"
+         accept=".xlsx, .xls"
+         (change)="onExcelUpload($event)" />
+    </div>
+
+</nav>
+
+<router-outlet></router-outlet>

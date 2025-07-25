@@ -1,0 +1,126 @@
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 10px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.left-button {
+  display: flex;
+  align-items: center;
+}
+
+.right-button {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Adjust space as needed */
+}
+
+
+// /* General layout */
+// body {
+//   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+//   background-color: #f5f7fa;
+//   margin: 0;
+//   padding: 0;
+//   color: #2c3e50;
+// }
+
+// /* Container for header */
+// .header-container {
+//   background-color: #ffffff;
+//   padding: 2rem 3rem;
+//   border-radius: 12px;
+//   margin: 2rem auto;
+//   max-width: 90%;
+//   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+//   text-align: center;
+// }
+
+// /* App title */
+// .app-title {
+//   font-size: 2.5rem;
+//   font-weight: 700;
+//   margin: 0;
+//   color: #34495e;
+// }
+
+// /* Tagline under title */
+// .tagline {
+//   font-size: 1.2rem;
+//   color: #7f8c8d;
+//   margin-top: 0.5rem;
+// }
+
+// /* Button group styling */
+// .button-group {
+//   margin-top: 1.5rem;
+//   display: flex;
+//   justify-content: center;
+//   gap: 1rem;
+// }
+
+// /* Optional enhancement for Kendo buttons if custom styles needed */
+// .button-group button {
+//   min-width: 140px;
+//   font-weight: 600;
+//   transition: all 0.3s ease;
+// }
+
+// .button-group button:hover {
+//   transform: translateY(-2px);
+//   box-shadow: 0 6px 12px rgba(0, 123, 255, 0.15);
+// }
+
+// /* Table section (if any) */
+// .table-container {
+//   background-color: #ffffff;
+//   margin: 2rem auto;
+//   padding: 2rem;
+//   border-radius: 12px;
+//   max-width: 95%;
+//   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+// }
+
+// /* Example: style for table headers & rows (if added later) */
+// .table-container table {
+//   width: 100%;
+//   border-collapse: collapse;
+// }
+
+// .table-container th,
+// .table-container td {
+//   padding: 1rem;
+//   text-align: left;
+//   border-bottom: 1px solid #e0e0e0;
+// }
+
+// .table-container th {
+//   background-color: #f1f3f5;
+//   color: #2c3e50;
+//   font-weight: 600;
+// }
+
+// /* Responsive tweak for small screens */
+// @media (max-width: 768px) {
+//   .button-group {
+//     flex-direction: column;
+//     align-items: center;
+//   }
+
+//   .header-container {
+//     padding: 1.5rem;
+//   }
+
+//   .app-title {
+//     font-size: 2rem;
+//   }
+
+//   .tagline {
+//     font-size: 1rem;
+//   }
+// }
+

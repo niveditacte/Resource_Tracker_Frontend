@@ -1,0 +1,121 @@
+<div class="header-container">
+    <h2 class="app-title">Welcome to Resource Tracker App</h2>
+    <br>
+    <p class="tagline">Manage your resources with clarity and control.</p>
+
+</div>
+
+<div class="k-card k-shadow-lg" style="padding: 20px; margin: 20px;">
+    <kendo-grid [kendoGridBinding]="resourcesArray" [filterable]="true" [sortable]="true" [groupable]="true"
+        [pageable]="true" [pageSize]="4" [reorderable]="true" [resizable]="true" [columnMenu]="true"
+        [(selectedKeys)]="selectedEmpIds" kendoGridSelectBy="empId"
+        [selectable]="{checkboxOnly: true, mode: 'multiple'}">
+        <kendo-grid-checkbox-column [width]="50" [columnMenu]="false"></kendo-grid-checkbox-column>
+        <kendo-grid-column field="empId" title="EMP ID" [filterable]="true" [hidden]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                {{ 'E' + (dataItem.empId.toString().padStart(4, '0')) }}
+            </ng-template>
+            <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+                <kendo-grid-string-filter-cell [column]="column" [showOperators]="true" [filter]="filter">
+                </kendo-grid-string-filter-cell>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="resource_Name" title="Resource Name" [filterable]="true" [hidden]="false">
+            <ng-template kendoGridFilterCellTemplate let-filter="" let-column="column">
+                <kendo-grid-string-filter-cell [column]="column" [filter]="filter">
+                </kendo-grid-string-filter-cell>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="billable" title="Billable" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="designation" title="Designation" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="reportingTo" title="Reporting To" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="project_Allocate" title="Project Allocation" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="technology_Skill" title="Technology/Skill" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="location" title="Location" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="emailId" title="Email ID" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="ctE_DOJ" title="CTE DOJ" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="remarks" title="Remarks" [hidden]="true"> </kendo-grid-column>
+
+
+        <!-- Action Column -->
+        <kendo-grid-column title="Actions" [width]="220" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <button style="margin-right: 10px;" kendoButton look="outline"
+                    (click)="onEdit(dataItem.empId)">Edit</button>
+                <button style="margin-right: 10px;" kendoButton look="outline"
+                    (click)="onShowClick(dataItem.empId)">View</button>
+                <button kendoButton look="flat" themeColor="error" (click)="openDeleteDialog(dataItem.empId)"><mat-icon
+                        style="vertical-align: middle; margin-right: 6px; ">delete</mat-icon></button>
+            </ng-template>
+        </kendo-grid-column>
+
+    </kendo-grid>
+
+    <!-- <button kendoButton look="outline" [disabled]="selectedEmpIds.length ===0" (click)="editSelected()">Edit Selected</button> -->
+    <button kendoButton look="outline" [disabled]="selectedEmpIds.length === 0" (click)="showBulkEditDialog = true">
+        Edit Selected
+    </button>
+    <kendo-dialog *ngIf="showBulkEditDialog" (close)="showBulkEditDialog = false">
+        <kendo-dialog-titlebar>
+            Bulk Edit Selected Employees
+        </kendo-dialog-titlebar>
+
+        <form (ngSubmit)="submitBulkUpdate()">
+            <div *ngFor="let field of editableFields">
+                <label>
+                    <input type="checkbox" [(ngModel)]="field.selected" [name]="field.key + '_chk'"> {{ field.label }}
+                </label>
+
+                <div *ngIf="field.selected" style="margin-bottom: 15px;">
+                    <input [(ngModel)]="field.value" [name]="field.key" class="k-textbox"
+                        placeholder="New {{ field.label }}" />
+                </div>
+            </div>
+
+            <kendo-dialog-actions>
+                <button class="k-button" type="button" (click)="showBulkEditDialog = false">Cancel</button>
+                <button class="k-button k-primary" type="submit">Apply Changes</button>
+            </kendo-dialog-actions>
+        </form>
+    </kendo-dialog>
+
+
+
+    <kendo-dialog *ngIf="showDialog" (close)="cancelDelete()">
+        <kendo-dialog-titlebar>
+            Confirm Delete
+        </kendo-dialog-titlebar>
+        <p>Are you sure you want to delete this employee?</p>
+        <kendo-dialog-actions>
+            <button class="k-button" (click)="cancelDelete()">Cancel</button>
+            <button class="k-button k-primary k-button-icontext" (click)="onDelete(empIdToDelete)">Delete</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+
+    <kendo-dialog *ngIf="showConfirmationDialog" title="Confirm Bulk Update">
+        <div class="dialog-content">
+            <p class="message">Are you sure you want to update
+                <strong class="highlight">{{ confirmationData.empIds.length }}</strong> employee(s)?
+            </p>
+
+            <p class="label"><strong>Emp IDs:</strong></p>
+            <p class="emp-ids">{{ confirmationData.empIds.join(', ') }}</p>
+
+            <p class="label"><strong>Changes:</strong></p>
+            <ul class="change-list">
+                <li *ngFor="let key of objectKeys(confirmationData.updatedFields)">
+                    <span class="field-name">{{ getFieldLabel(key) }}</span> =
+                    <span class="field-value">"{{ confirmationData.updatedFields[key] }}"</span>
+                </li>
+            </ul>
+        </div>
+
+        <kendo-dialog-actions>
+            <button kendoButton (click)="cancelConfirmation()">Cancel</button>
+            <button kendoButton themeColor="primary" (click)="confirmBulkUpdate()">Confirm</button>
+        </kendo-dialog-actions>
+    </kendo-dialog>
+
+
+
+</div>

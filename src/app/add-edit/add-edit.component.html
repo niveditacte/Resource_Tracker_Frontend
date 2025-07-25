@@ -1,0 +1,146 @@
+<h1>Resource Input Form</h1>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <!-- Resource Name -->
+    <div class="form-group">
+      <label for="resource_Name">Resource Name<span class="required-field">*</span></label>
+      <input type="text" formControlName="resource_Name" placeholder="Give full name">
+      <span class="validation-message"
+        *ngIf="myForm.get('resource_Name')?.hasError('required') && (myForm.get('resource_Name')?.touched || myForm.get('resource_Name')?.dirty)">
+        Resource name is required.
+      </span>
+    </div>
+
+    <!-- Designation -->
+    <div class="form-group">
+      <label for="designation">Designation<span class="required-field">*</span></label>
+      <input type="text" formControlName="designation" placeholder="Ex. Trainee, Developer" list="designationList">
+      <datalist id="designationList">
+        <option *ngFor="let item of designations" [value]="item"></option>
+      </datalist>
+      <span class="validation-message"
+        *ngIf="myForm.get('designation')?.hasError('required') && (myForm.get('designation')?.touched || myForm.get('designation')?.dirty)">
+        Designation is required.
+      </span>
+    </div>
+  </div>
+  <!-- Reporting To -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="reportingTo">Reporting To<span class="required-field">*</span></label>
+      <input type="text" formControlName="reportingTo" placeholder="Manager/Supervisor" list="reportingToList">
+      <datalist id="reportingToList">
+        <option *ngFor="let item of reportingToList" [value]="item"></option>
+      </datalist>
+      <span class="validation-message"
+        *ngIf="myForm.get('reportingTo')?.hasError('required') && (myForm.get('reportingTo')?.touched || myForm.get('reportingTo')?.dirty)">
+        Reporting manager name is required.
+      </span>
+    </div>
+
+    <!-- Billable -->
+    <div class="form-group">
+      <label for="billable">Billable<span class="required-field">*</span></label>
+      <select formControlName="billable">
+        <option value="" disabled selected>Select Billable status</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+      <span class="validation-message"
+        *ngIf="myForm.get('billable')?.hasError('required') && (myForm.get('billable')?.touched || myForm.get('billable')?.dirty)">
+        Billable status is required.
+      </span>
+    </div>
+  </div>
+  <!-- Technology Skill -->
+  <!-- <label for="technology_Skill">Technology/Skill<span class="required-field">*</span></label>
+  <select formControlName="technology_Skill" multiple>
+    <option *ngFor="let skill of skills" [value]="skill">{{ skill }}</option>
+  </select> -->
+  <mat-form-field appearance="outline"class = "full-width">
+     <mat-label>Technology Skill</mat-label>
+     <mat-chip-grid #chipGrid aria-label="Technology Skills">
+    @for (skill of selectedSkills; track skill) {
+      <mat-chip-row (removed)="removeSkill(skill)">
+        {{ skill }}
+        <button matChipRemove [attr.aria-label]="'remove ' + skill">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
+  </mat-chip-grid>
+      <input placeholder="Add a skill" [formControl]="skillCtrl" [matAutocomplete]="auto" [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"  [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="addSkillFromInput($event)">
+   
+     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    @for (skill of filteredSkills | async; track skill) {
+      <mat-option [value]="skill">{{ skill }}</mat-option>
+    }
+  </mat-autocomplete>
+  </mat-form-field>
+  <span class="validation-message"
+    *ngIf="myForm.get('technology_Skill')?.hasError('required') && (myForm.get('technology_Skill')?.touched || myForm.get('technology_Skill')?.dirty)">
+    Technology/Skill is required.
+  </span>
+
+  <div class="form-row">
+    <!-- Project Allocation -->
+    <div class="form-group">
+      <label for="project_Allocate">Project Allocation<span class="required-field">*</span></label>
+      <input type="text" formControlName="project_Allocate" placeholder="Assigned project name" list="projectList">
+      <datalist id="projectList">
+        <option *ngFor="let item of projects" [value]="item"></option>
+      </datalist>
+      <span class="validation-message"
+        *ngIf="myForm.get('project_Allocate')?.hasError('required') && (myForm.get('project_Allocate')?.touched || myForm.get('project_Allocate')?.dirty)">
+        Project Allocation is required.
+      </span>
+    </div>
+
+    <!-- Location -->
+    <div class="form-group">
+      <label for="location">Location<span class="required-field">*</span></label>
+      <input type="text" formControlName="location" placeholder="Current working location" list="locationList">
+      <datalist id="locationList">
+        <option *ngFor="let item of locations" [value]="item"></option>
+      </datalist>
+      <span class="validation-message"
+        *ngIf="myForm.get('location')?.hasError('required') && (myForm.get('location')?.touched || myForm.get('location')?.dirty)">
+        Location is required.
+      </span>
+    </div>
+  </div>
+  <div class="form-row">
+    <!-- Email Id -->
+    <div class="form-group">
+      <label for="emailId">Email Id<span class="required-field">*</span></label>
+      <input type="text" formControlName="emailId" placeholder="Write Email Id here">
+      <span class="validation-message"
+        *ngIf="myForm.get('emailId')?.hasError('required') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
+        Email is required.
+      </span>
+      <span class="validation-message"
+        *ngIf="myForm.get('emailId')?.hasError('email') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
+        Enter a valid email.
+      </span>
+    </div>
+
+    <!-- CTE_DOJ -->
+    <div class="form-group">
+      <label for="ctE_DOJ">CTE_DOJ<span class="required-field">*</span></label>
+      <input type="date" formControlName="ctE_DOJ" placeholder="Date of Joining">
+      <span class="validation-message"
+        *ngIf="myForm.get('ctE_DOJ')?.hasError('required') && (myForm.get('ctE_DOJ')?.touched || myForm.get('ctE_DOJ')?.dirty)">
+        Date of joining is required.
+      </span>
+    </div>
+  </div>
+
+  <!-- Remarks -->
+  <label for="remarks">Remarks</label>
+  <input type="text" formControlName="remarks" placeholder="Write remarks here...">
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="!myForm.valid">Submit</button>
+
+</form>

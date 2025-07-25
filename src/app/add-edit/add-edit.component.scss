@@ -1,0 +1,147 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 10px;
+  }
+ h1 {
+    text-align: center;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+/* Container styling */
+form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px 40px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 30px 34px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Label styling */
+form label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #333;
+  margin-top: 20px;
+}
+
+/* Input & select styling */
+form input[type="text"],
+form select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.required-field{
+  color: red;
+}
+
+form input[type="text"]:focus,
+form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Placeholder style (optional) */
+form input::placeholder {
+  color: #aaa;
+}
+
+/* Submit button styling */
+form button[type="submit"] {
+  margin-top: 30px;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 12px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+form button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+/* Style for input[type="date"] to match other inputs */
+form input[type="date"] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+  color: #333;
+  background-color: #fff;
+}
+
+form input[type="date"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+/* Style for the validation message */
+span[hidden] {
+  display: none;
+}
+
+.validation-message {
+  color: red;
+  font-size: 0.875rem; /* Slightly smaller than regular text */
+  margin-top: 4px;
+  display: block;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* space between the two fields */
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+input, select {
+  padding: 8px;
+  font-size: 14px;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.validation-message {
+  color: red;
+  font-size: 12px;
+}
+
+.full-width {
+  width: 100%;
+}
+

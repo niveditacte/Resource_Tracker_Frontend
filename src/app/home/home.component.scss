@@ -1,0 +1,176 @@
+
+/* General layout */
+// body {
+//   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+//   background-color: #f5f7fa;
+//   margin: 0;
+//   padding: 0;
+//   color: #2c3e50;
+// }
+
+/* Container for header */
+.header-container {
+  background-color: #ffffff;
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  margin: 1rem auto;
+  max-width: 90%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+/* App title */
+.app-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: #34495e;
+}
+
+/* Tagline under title */
+.tagline {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-top: 0.5rem;
+}
+
+
+/* Responsive tweak for small screens */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 1.5rem;
+  }
+
+  .app-title {
+    font-size: 1.5rem;
+  }
+
+  .tagline {
+    font-size: 0.5rem;
+  }
+}
+
+
+
+
+
+
+// Dialog container styles
+::ng-deep kendo-dialog {
+  p {
+    font-size: 1rem;
+    margin: 16px 0;
+    color: #333;
+  }
+
+  kendo-dialog-titlebar {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #444;
+    background-color: #f8f8f8;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  kendo-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 12px 16px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+
+    .k-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      margin-left: 8px;
+      border: none;
+      border-radius: 4px;
+      background-color: #e0e0e0;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #c7c7c7;
+      }
+
+      &.k-primary {
+        background-color: #d32f2f;
+        color: #fff;
+
+        &:hover {
+          background-color: #b71c1c;
+        }
+      }
+    }
+  }
+}
+
+
+::ng-deep .k-grid-header th.k-header {
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+}
+
+
+.export-btn {
+  background-color: #007bff; /* Bootstrap blue */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.export-btn:hover {
+  background-color: #0056b3;
+}
+
+.dialog-content {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+  padding: 10px 0;
+}
+
+.message {
+  margin-bottom: 15px;
+}
+
+.label {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.emp-ids {
+  margin: 0 0 10px 0;
+  color: #0078d4;
+  font-weight: 500;
+}
+
+.change-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+}
+
+.change-list li {
+  margin: 4px 0;
+}
+
+.field-name {
+  font-weight: bold;
+  color: #4a4a4a;
+}
+
+.field-value {
+  color: #0078d4;
+}
+
+
+
+
+
