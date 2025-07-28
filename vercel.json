@@ -1,5 +1,5 @@
 {
-  "buildCommand": "ng build Resource_Tracker --configuration production",
+  "buildCommand": "ng build resource-tracker --configuration production",
   "installCommand": "npm install --legacy-peer-deps",
   "outputDirectory": "dist/resource-tracker",
   "rewrites": [
