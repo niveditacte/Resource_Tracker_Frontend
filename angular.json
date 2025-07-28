@@ -4,7 +4,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Resource_Tracker": {
+    "resource-tracker": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Resource_Tracker:build:production"
+              "buildTarget": "resource-tracker:build:production"
             },
             "development": {
-              "buildTarget": "Resource_Tracker:build:development"
+              "buildTarget": "resource-tracker:build:production"
             }
           },
           "defaultConfiguration": "development"
