@@ -6,24 +6,11 @@ import { HttpClientService } from '../Services/http-client.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Observable, map, startWith } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-
+import { NgSelectModule } from '@ng-select/ng-select';
 @Component({
   selector: 'app-add-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, MatChipsModule, MatAutocompleteModule, MatIconModule, MatFormFieldModule, MatInputModule, MatButtonModule, FormsModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, NgSelectModule],
   templateUrl: './add-edit.component.html',
   styleUrl: './add-edit.component.scss'
 })
@@ -31,20 +18,13 @@ export class AddEditComponent {
 
   selectedEmpIds: string[] = [];
   isBulkEdit: boolean = false;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
-  selectable = true;
-  removable = true;
-  filteredSkills!: Observable<string[]>;
-  // allSkills: string[] = [];  // filled via API
-  selectedSkills: string[] = [];
-  skillCtrl = new FormControl('');
 
   myForm: FormGroup = new FormGroup({
     resource_Name: new FormControl('', [Validators.required]),
     designation: new FormControl('', [Validators.required]),
     reportingTo: new FormControl('', [Validators.required]),
     billable: new FormControl('', [Validators.required]),
-    technology_Skill: new FormControl([], Validators.required),
+    technology_Skill: new FormControl([], [Validators.required]),
     project_Allocate: new FormControl('', [Validators.required]),
     location: new FormControl('', [Validators.required]),
     emailId: new FormControl('', [Validators.required, Validators.email]),
@@ -60,7 +40,7 @@ export class AddEditComponent {
 
   designations: string[] = [];
   locations: string[] = [];
-  skills: string[] = [];
+  skills: any[] = [];
   projects: string[] = [];
   reportingToList: string[] = [];
 
@@ -102,20 +82,14 @@ export class AddEditComponent {
       this.locations = data;
     });
 
-    this.httpclientService.getSkills().subscribe(data => {
+    this.httpclientService.getSkills().subscribe({next: (data) => {
       this.skills = data;
-      this.filteredSkills = this.skillCtrl.valueChanges.pipe(
-        startWith(null),
-        map((skill: string | null) => skill ? this._filter(skill) : this.skills.slice())
-      );
-    });
-    if (this.empId) {
-      this.httpclientService.getEmployeeDetailsById(this.empId).subscribe((response) => {
-        this.myForm.patchValue(response);
-        this.selectedSkills = response.technology_Skill?.split(',') || [];
-        this.myForm.get('technology_Skill')?.setValue(this.selectedSkills);
-      });
+    },
+    error: (err) =>{
+      console.error("Error loading skills:",err);
     }
+
+    });
 
     this.httpclientService.getProjects().subscribe(data => {
       this.projects = data;
@@ -124,44 +98,6 @@ export class AddEditComponent {
     this.httpclientService.getReportingTo().subscribe(data => {
       this.reportingToList = data;
     });
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.skills.filter((skill) =>
-      skill.toLowerCase().includes(filterValue) &&
-      !this.selectedSkills.includes(skill));
-  }
-
-  addSkillFromInput(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-    if (value && !this.selectedSkills.includes(value)) {
-      this.selectedSkills.push(value);
-      this.updateSkillFormValue();
-    }
-    event.chipInput!.clear();
-    this.skillCtrl.setValue(null);
-  }
-
-  removeSkill(skill: string): void {
-    const index = this.selectedSkills.indexOf(skill);
-    if (index >= 0) {
-      this.selectedSkills.splice(index, 1);
-      this.updateSkillFormValue();
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.viewValue;
-    if (!this.selectedSkills.includes(value)) {
-      this.selectedSkills.push(value);
-      this.updateSkillFormValue();
-    }
-    this.skillCtrl.setValue(null);
-  }
-
-  updateSkillFormValue(): void {
-    this.myForm.get('technology_Skill')?.setValue(this.selectedSkills);
   }
 
 
@@ -226,7 +162,7 @@ export class AddEditComponent {
   // }
 
   onSubmit() {
-    const formData = { ...this.myForm.value };
+    const formData = {...this.myForm.value};
 
     // Extract only selected fields
     const updatedFields: any = {};

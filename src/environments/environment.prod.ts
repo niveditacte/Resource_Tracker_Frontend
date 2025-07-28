@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiBaseUrl: 'https://your-production-api.com/api/Resource/'
+    apiBaseUrl: 'https://resourcetrackerbackend-e6f7bubudmaycsc6.canadacentral-01.azurewebsites.net/api/resourcetracker'
 }
