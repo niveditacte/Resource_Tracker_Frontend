@@ -1,5 +1,11 @@
 {
   "buildCommand": "ng build Resource_Tracker --configuration production",
   "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": "dist/resource-tracker"
+  "outputDirectory": "dist/resource-tracker/browser",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
