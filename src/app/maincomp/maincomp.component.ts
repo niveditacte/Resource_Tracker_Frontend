@@ -9,6 +9,7 @@ import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
 import { Resource } from '../interfaces';
 import { MatIconModule } from '@angular/material/icon';
 import * as XLSX from 'xlsx';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-maincomp',
@@ -19,17 +20,22 @@ import * as XLSX from 'xlsx';
 })
 export class MaincompComponent {
   resourcesArray: Array<Resource> = [];
-  constructor(private httpClientService: HttpClientService, private router: Router) { }
+  constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef) { }
   NavigateTab(route: string) {
     this.router.navigate([route]);
   }
 
   ngOnInit() {
-    this.httpClientService.getAllEmployees().subscribe((response) => {
-      this.resourcesArray = (response as Array<Resource>)
-      console.log(this.resourcesArray)
-    })
+    this.loadEmployees();
   }
+
+  loadEmployees() {
+    this.httpClientService.getAllEmployees().subscribe((response) => {
+      this.resourcesArray = [...(response as Resource[])];
+      console.log(this.resourcesArray)
+      this.cdr.detectChanges();
+    })
+  };
 
   exportToCSV() {
 
@@ -108,7 +114,6 @@ export class MaincompComponent {
   }
 
   onExcelUpload(event: any): void {
-    debugger
     const target: DataTransfer = <DataTransfer>(event.target);
 
     if (target.files.length !== 1) {
@@ -118,60 +123,37 @@ export class MaincompComponent {
 
     const reader: FileReader = new FileReader();
     reader.onload = (e: any) => {
-      const binaryData = e.target.result;
-      const workbook: XLSX.WorkBook = XLSX.read(binaryData, { type: 'binary' });
+      const bstr: string = e.target.result;
+      const wb: XLSX.WorkBook = XLSX.read(bstr, { type: 'binary' });
 
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
+      const wsname: string = wb.SheetNames[0];
+      const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-      const jsonData: any[] = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+      const data = <any[]>XLSX.utils.sheet_to_json(ws);
+      console.log('Parsed Data:', data);
 
-      const resources: any[] = jsonData.map((row: any) => ({
-        empId: String(row.empId ?? ''),
-        resource_Name: row.resource_Name,
-        designation: row.designation,
-        reportingTo: row.reportingTo,
-        billable: row.billable,
-        technology_Skill: row.technology_Skill,
-        project_Allocate: row.project_Allocate,
-        location: row.location,
-        emailId: row.emailId,
-        ctE_DOJ: this.parseDate(row.ctE_DOJ),
-        remarks: row.remarks,
-        exportedAt: this.parseDate(row.exportedAt)
-      }));
-
-      // Send parsed data to API
-      debugger
-      this.httpClientService.importParsedResources(resources).subscribe({
-        next: (res) => {
-          alert('Data imported successfully!');
-          this.fetchEmployeeData();
-        },
-        error: (err) => {
-          console.error('Import failed', err);
-          let errorMsg = 'Unknown error occurred';
-          if (err?.error?.message) {
-            errorMsg = err.error.message;
-          } else if (typeof err?.error === 'string') {
-            errorMsg = err.error;
-          } else if (err?.message) {
-            errorMsg = err.message;
-          }
-          debugger
-
-          alert('Import failed: ' + errorMsg);
-        }
-      });
+      this.bulkUploadResources(data);
     };
 
     reader.readAsBinaryString(target.files[0]);
   }
 
+  bulkUploadResources(resourceArray: any[]): void {
+    this.httpClientService.bulkImportResources(resourceArray).subscribe({
+      next: (res) => {
+        console.log('Bulk import successful', res);
+        this.loadEmployees();
+      },
+      error: (err) => {
+        console.error('Bulk import failed', err);
+      }
+    });
+  }
+
   parseDate(value: any): Date | null {
     // Handle both Excel and ISO dates
     const parsed = new Date(value);
-    return isNaN(parsed.getTime()) ? null : parsed ;
+    return isNaN(parsed.getTime()) ? null : parsed;
   }
 
   fetchEmployeeData(): void {

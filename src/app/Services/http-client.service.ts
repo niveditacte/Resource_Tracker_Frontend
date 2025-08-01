@@ -50,13 +50,12 @@ export class HttpClientService {
   }
 
   deleteEmployeeDetails(id: string) {
-    const endpoint = this.ServerURI +'/'+ id.toString();
+    const endpoint = this.ServerURI + '/' + id.toString();
     return this.httpclient.delete(endpoint)
   }
 
-  importParsedResources(resources: Resource[]) {
-    debugger
-    const endpoint = this.ServerURI + 'import';
+  bulkImportResources(resources: any[]) {
+    const endpoint = this.ServerURI + '/import';
     return this.httpclient.post(endpoint, resources);
   }
 
