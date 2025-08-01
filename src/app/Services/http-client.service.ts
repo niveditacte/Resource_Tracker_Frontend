@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Resource } from '../interfaces';
+import { Designation, Manager, Project, Resource, Skills, Location } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -10,42 +10,47 @@ import { Resource } from '../interfaces';
 export class HttpClientService {
   private ServerURI = environment.apiBaseUrl
 
-  constructor(private httpclient:HttpClient) { }
+  constructor(private httpclient: HttpClient) { }
 
-  getEmployeeDetailsById(empId:string): Observable<Resource>{
-    const endpoint = this.ServerURI+empId.toString();
+  getEmployeeDetailsById(id: string): Observable<Resource> {
+    const endpoint = this.ServerURI + "/details/" + id.toString();
     return this.httpclient.get<Resource>(endpoint);
   }
 
-  getAllEmployees(){
+  getEmployeeById(id: string) {
+    const endpoint = this.ServerURI + "/" + id.toString();
+    return this.httpclient.get(endpoint);
+  }
+
+  getAllEmployees() {
     const endpoint = this.ServerURI;
     return this.httpclient.get(endpoint)
   }
 
   getAllEmployeesDownload() {
-    const endpoint = this.ServerURI + "download-csv"; 
+    const endpoint = this.ServerURI + "download-csv";
     return this.httpclient.get(endpoint);
   }
 
-  addEmployeeeDetails(data:any){
-    const endpoint = this.ServerURI ;
+  addEmployeeeDetails(data: any) {
+    const endpoint = this.ServerURI;
     console.log("Data:", data);
-    return this.httpclient.post(endpoint,data)
+    return this.httpclient.post(endpoint, data)
   }
 
-  updateEmployeeDetails(empId:string,data:any){
-    const endpoint = this.ServerURI ;
-    const payload = {empId, ...data}
-    return this.httpclient.put(endpoint,payload)
+  updateEmployeeDetails(id: string, data: any) {
+    const endpoint = this.ServerURI + '/' + id.toString();
+    const payload = { empId: id, ...data }
+    return this.httpclient.put(endpoint, payload)
   }
 
-  bulkUpdateEmployeeDetails(payload:any[]) {
-  const endpoint = `${this.ServerURI}bulk`;
-  return this.httpclient.put(endpoint, payload);
+  bulkUpdateEmployeeDetails(payload: any) {
+    const endpoint = `${this.ServerURI}/bulk-update`;
+    return this.httpclient.put(endpoint, payload);
   }
 
-  deleteEmployeeDetails(empId:string){
-    const endpoint = this.ServerURI + empId.toString();
+  deleteEmployeeDetails(id: string) {
+    const endpoint = this.ServerURI +'/'+ id.toString();
     return this.httpclient.delete(endpoint)
   }
 
@@ -55,23 +60,23 @@ export class HttpClientService {
     return this.httpclient.post(endpoint, resources);
   }
 
-  getDesignations(): Observable<string[]> {
-    return this.httpclient.get<string[]>(this.ServerURI + 'designations');
+  getDesignations(): Observable<Designation[]> {
+    return this.httpclient.get<Designation[]>(this.ServerURI + '/designations');
   }
 
-  getLocations(): Observable<string[]> {
-    return this.httpclient.get<string[]>(this.ServerURI + 'locations');
+  getLocations(): Observable<Location[]> {
+    return this.httpclient.get<Location[]>(this.ServerURI + '/locations');
   }
 
-  getSkills(): Observable<string[]> {
-    return this.httpclient.get<string[]>(this.ServerURI + 'skills');
+  getSkills(): Observable<Skills[]> {
+    return this.httpclient.get<Skills[]>(this.ServerURI + '/skills');
   }
 
-  getProjects(): Observable<string[]> {
-    return this.httpclient.get<string[]>(this.ServerURI + 'projects');
+  getProjects(): Observable<Project[]> {
+    return this.httpclient.get<Project[]>(this.ServerURI + '/projects');
   }
 
-  getReportingTo(): Observable<string[]> {
-    return this.httpclient.get<string[]>(this.ServerURI + 'reportingto');
+  getReportingTo(): Observable<Manager[]> {
+    return this.httpclient.get<Manager[]>(this.ServerURI + '/managers');
   }
 }

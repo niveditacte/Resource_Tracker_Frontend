@@ -1,13 +1,13 @@
 <h1>Resource Details</h1>
-<div>
+<div *ngIf="employeeDetails">
   <span><label>EMP ID:</label>   {{ 'E' + (employeeDetails.empId.toString().padStart(4, '0')) }}</span>
-  <span><label>Resource Name:</label> {{employeeDetails.resource_Name}}</span>
-  <span><label>Designation:</label> {{employeeDetails.designation}}</span>
-  <span><label>Reporting To:</label> {{employeeDetails.reportingTo}}</span>
+  <span><label>Resource Name:</label> {{employeeDetails.employee_Name}}</span>
+  <span><label>Designation:</label> {{employeeDetails.designation_Name}}</span>
+  <span><label>Reporting To:</label> {{employeeDetails.reportingToName}}</span>
   <span><label>Billable:</label> {{employeeDetails.billable}}</span>
-  <span><label>Technology/Skill</label> {{employeeDetails.technology_Skill}}</span>
-  <span><label>Project Allocation:</label> {{employeeDetails.project_Allocate}}</span>
-  <span><label>Location:</label> {{employeeDetails.location}}</span>
+  <span><label>Technology/Skill:</label> {{employeeDetails.skills}}</span>
+  <span><label>Project Allocation:</label> {{employeeDetails.projects}}</span>
+  <span><label>Location:</label> {{employeeDetails.location_Name}}</span>
   <span><label>Email Id:</label> {{employeeDetails.emailId}}</span>
   <span><label>CTE DOJ:</label> {{employeeDetails.ctE_DOJ}}</span>
   <span><label>Remarks:</label> {{employeeDetails.remarks}}</span>

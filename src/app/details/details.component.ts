@@ -17,7 +17,7 @@ export class DetailsComponent {
   constructor( private httpClientService:HttpClientService,private activatedRoute:ActivatedRoute){}
   
   empId?: string;
-  employeeDetails !: Resource;
+  employeeDetails?: Resource;
 
   ngOnInit(){
     this.empId = this.activatedRoute.snapshot.paramMap.get('empId')!;

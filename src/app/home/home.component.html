@@ -7,7 +7,7 @@
 
 <div class="k-card k-shadow-lg" style="padding: 20px; margin: 20px;">
     <kendo-grid [kendoGridBinding]="resourcesArray" [filterable]="true" [sortable]="true" [groupable]="true"
-        [pageable]="true" [pageSize]="4" [reorderable]="true" [resizable]="true" [columnMenu]="true"
+        [pageable]="true" [pageSize]="5" [reorderable]="true" [resizable]="true" [columnMenu]="true"
         [(selectedKeys)]="selectedEmpIds" kendoGridSelectBy="empId"
         [selectable]="{checkboxOnly: true, mode: 'multiple'}">
         <kendo-grid-checkbox-column [width]="50" [columnMenu]="false"></kendo-grid-checkbox-column>
@@ -20,18 +20,18 @@
                 </kendo-grid-string-filter-cell>
             </ng-template>
         </kendo-grid-column>
-        <kendo-grid-column field="resource_Name" title="Resource Name" [filterable]="true" [hidden]="false">
+        <kendo-grid-column field="employee_Name" title="Resource Name" [filterable]="true" [hidden]="false">
             <ng-template kendoGridFilterCellTemplate let-filter="" let-column="column">
                 <kendo-grid-string-filter-cell [column]="column" [filter]="filter">
                 </kendo-grid-string-filter-cell>
             </ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="billable" title="Billable" [hidden]="false"> </kendo-grid-column>
-        <kendo-grid-column field="designation" title="Designation" [hidden]="false"> </kendo-grid-column>
-        <kendo-grid-column field="reportingTo" title="Reporting To" [hidden]="false"> </kendo-grid-column>
-        <kendo-grid-column field="project_Allocate" title="Project Allocation" [hidden]="true"> </kendo-grid-column>
-        <kendo-grid-column field="technology_Skill" title="Technology/Skill" [hidden]="true"> </kendo-grid-column>
-        <kendo-grid-column field="location" title="Location" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="designation_Name" title="Designation" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="reportingToName" title="Reporting To" [hidden]="false"> </kendo-grid-column>
+        <kendo-grid-column field="projects" title="Project Allocation" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="skills" title="Technology/Skill" [hidden]="true"> </kendo-grid-column>
+        <kendo-grid-column field="location_Name" title="Location" [hidden]="false"> </kendo-grid-column>
         <kendo-grid-column field="emailId" title="Email ID" [hidden]="true"> </kendo-grid-column>
         <kendo-grid-column field="ctE_DOJ" title="CTE DOJ" [hidden]="true"> </kendo-grid-column>
         <kendo-grid-column field="remarks" title="Remarks" [hidden]="true"> </kendo-grid-column>
@@ -60,7 +60,7 @@
             Bulk Edit Selected Employees
         </kendo-dialog-titlebar>
 
-        <form (ngSubmit)="submitBulkUpdate()">
+        <!-- <form (ngSubmit)="submitBulkUpdate()">
             <div *ngFor="let field of editableFields">
                 <label>
                     <input type="checkbox" [(ngModel)]="field.selected" [name]="field.key + '_chk'"> {{ field.label }}
@@ -76,9 +76,37 @@
                 <button class="k-button" type="button" (click)="showBulkEditDialog = false">Cancel</button>
                 <button class="k-button k-primary" type="submit">Apply Changes</button>
             </kendo-dialog-actions>
-        </form>
-    </kendo-dialog>
+        </form> -->
 
+        <form (ngSubmit)="submitBulkUpdate()">
+            <div *ngFor="let field of editableFields">
+                <label>
+                    <input type="checkbox" [(ngModel)]="field.selected" [name]="field.key + '_chk'"> {{ field.label }}
+                </label>
+
+                <div *ngIf="field.selected" style="margin-bottom: 15px;">
+                    <!-- For dropdown fields -->
+                    <select *ngIf="isDropdown(field.key)" [(ngModel)]="field.value" [name]="field.key">
+                        class="k-textbox">
+                        <option [ngValue]="''" disabled selected>Select {{ field.label }}</option>
+                        <option *ngFor="let option of getOptions(field.key)" [ngValue]="option[field.key]">
+                            {{ option[field.dataLabel] }}
+                        </option>
+                    </select>
+
+                    <!-- For other fields (like billable) -->
+                    <input *ngIf="!isDropdown(field.key)" [(ngModel)]="field.value" [name]="field.key" class="k-textbox"
+                        placeholder="New {{ field.label }}" />
+                </div>
+            </div>
+
+            <kendo-dialog-actions>
+                <button class="k-button" type="button" (click)="showBulkEditDialog = false">Cancel</button>
+                <button class="k-button k-primary" type="submit">Apply Changes</button>
+            </kendo-dialog-actions>
+        </form>
+
+    </kendo-dialog>
 
 
     <kendo-dialog *ngIf="showDialog" (close)="cancelDelete()">
@@ -115,7 +143,4 @@
             <button kendoButton themeColor="primary" (click)="confirmBulkUpdate()">Confirm</button>
         </kendo-dialog-actions>
     </kendo-dialog>
-
-
-
 </div>

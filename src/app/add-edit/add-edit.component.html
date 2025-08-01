@@ -3,23 +3,28 @@
   <div class="form-row">
     <!-- Resource Name -->
     <div class="form-group">
-      <label for="resource_Name">Resource Name<span class="required-field">*</span></label>
-      <input type="text" formControlName="resource_Name" placeholder="Give full name">
+      <label for="employee_Name">Resource Name<span class="required-field">*</span></label>
+      <input type="text" formControlName="employee_Name" placeholder="Give full name">
       <span class="validation-message"
-        *ngIf="myForm.get('resource_Name')?.hasError('required') && (myForm.get('resource_Name')?.touched || myForm.get('resource_Name')?.dirty)">
+        *ngIf="myForm.get('employee_Name')?.hasError('required') && (myForm.get('employee_Name')?.touched || myForm.get('resource_Name')?.dirty)">
         Resource name is required.
       </span>
     </div>
 
     <!-- Designation -->
     <div class="form-group">
-      <label for="designation">Designation<span class="required-field">*</span></label>
-      <input type="text" formControlName="designation" placeholder="Ex. Trainee, Developer" list="designationList">
+      <label for="designation_Name">Designation<span class="required-field">*</span></label>
+      <select name="" id="designation_Name" [value]="null" formControlName="designationId" >
+        <option [value]="null" hidden selected>Select Designation</option>
+        <option *ngFor="let designation of designations" [value]="designation.designationId">{{
+          designation.designation_Name }}</option>
+      </select>
+      <!-- <input type="text" formControlName="designationId" placeholder="Ex. Trainee, Developer" list="designationList">
       <datalist id="designationList">
-        <option *ngFor="let item of designations" [value]="item"></option>
-      </datalist>
+        <option *ngFor="let item of designations" [value]=""></option>
+      </datalist> -->
       <span class="validation-message"
-        *ngIf="myForm.get('designation')?.hasError('required') && (myForm.get('designation')?.touched || myForm.get('designation')?.dirty)">
+        *ngIf="myForm.get('designation_Name')?.hasError('required') && (myForm.get('designation_Name')?.touched || myForm.get('designation')?.dirty)">
         Designation is required.
       </span>
     </div>
@@ -27,14 +32,19 @@
   <!-- Reporting To -->
   <div class="form-row">
     <div class="form-group">
-      <label for="reportingTo">Reporting To<span class="required-field">*</span></label>
-      <input type="text" formControlName="reportingTo" placeholder="Manager/Supervisor" list="reportingToList">
-<datalist id="reportingToList">
-  <option *ngFor="let item of reportingToList" [value]="item"></option>
-</datalist>
+      <label for="reportingToName">Reporting To<span class="required-field">*</span></label>
+      <!-- <input type="text" formControlName="managerId" placeholder="Manager/Supervisor" list="reportingToList"> -->
+      <select name="" id="reportingToName" [value]="null" formControlName="managerId">
+        <option [value]="null" hidden selected>Select Manager</option>
+        <option *ngFor="let manager of ManagerList" [value]="manager?.managerId">{{
+          manager?.manager_Name }}</option>
+      </select>
+      <!-- <datalist id="reportingToList">
+        <option *ngFor="let item of reportingToList" [value]="item"></option>
+      </datalist> -->
 
       <span class="validation-message"
-        *ngIf="myForm.get('reportingTo')?.hasError('required') && (myForm.get('reportingTo')?.touched || myForm.get('reportingTo')?.dirty)">
+        *ngIf="myForm.get('reportingToName')?.hasError('required') && (myForm.get('reportingToName')?.touched || myForm.get('reportingTo')?.dirty)">
         Reporting manager name is required.
       </span>
     </div>
@@ -54,39 +64,50 @@
     </div>
   </div>
   <!-- Technology Skill -->
-  <label for="technology_Skill">Technology/Skill<span class="required-field">*</span></label>
-  <input type="text" formControlName="technology_Skill" placeholder="Write about skills" list="skillsList">
+  <label for="skills">Technology/Skill<span class="required-field">*</span></label>
+  <ng-select formControlName="skillsIds" [items]="skills_array" bindLabel="skill_Name" bindValue="skillId"
+    [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true">
+  </ng-select>
+  <!-- <input type="text" formControlName="skills" placeholder="Write about skills" list="skillsList">
   <datalist id="skillsList">
-    <option *ngFor="let item of skills" [value]="item"></option>
-  </datalist>
+    <option *ngFor="let item of skills_array" [value]="item"></option>
+  </datalist> -->
   <span class="validation-message"
-    *ngIf="myForm.get('technology_Skill')?.hasError('required') && (myForm.get('technology_Skill')?.touched || myForm.get('technology_Skill')?.dirty)">
+    *ngIf="myForm.get('skills')?.hasError('required') && (myForm.get('skills')?.touched || myForm.get('technology_Skill')?.dirty)">
     Technology/Skill is required.
   </span>
 
   <div class="form-row">
     <!-- Project Allocation -->
     <div class="form-group">
-      <label for="project_Allocate">Project Allocation<span class="required-field">*</span></label>
-      <input type="text" formControlName="project_Allocate" placeholder="Assigned project name" list="projectList">
+      <label for="projects">Project Allocation<span class="required-field">*</span></label>
+      <!-- <input type="text" formControlName="projects" placeholder="Assigned project name" list="projectList">
       <datalist id="projectList">
-        <option *ngFor="let item of projects" [value]="item"></option>
-      </datalist>
+        <option *ngFor="let item of projects_array" [value]="item"></option>
+      </datalist> -->
+      <ng-select formControlName="projectsIds" [items]="projects_array" bindLabel="project_Name" bindValue="projectId"
+        [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true">
+      </ng-select>
       <span class="validation-message"
-        *ngIf="myForm.get('project_Allocate')?.hasError('required') && (myForm.get('project_Allocate')?.touched || myForm.get('project_Allocate')?.dirty)">
+        *ngIf="myForm.get('projects')?.hasError('required') && (myForm.get('projects')?.touched || myForm.get('project_Allocate')?.dirty)">
         Project Allocation is required.
       </span>
     </div>
 
     <!-- Location -->
     <div class="form-group">
-      <label for="location">Location<span class="required-field">*</span></label>
-      <input type="text" formControlName="location" placeholder="Current working location" list="locationList">
+      <label for="location_Name">Location<span class="required-field">*</span></label>
+      <select name="" id="location_Name" [value]="null" formControlName="locationId">
+        <option [value]="null" hidden selected>Select Location</option>
+        <option *ngFor="let location of locations" [value]="location.locationId">{{
+          location.location_Name }}</option>
+      </select>
+      <!-- <input type="text" formControlName="location_Name" placeholder="Current working location" list="locationList">
       <datalist id="locationList">
         <option *ngFor="let item of locations" [value]="item"></option>
-      </datalist>
+      </datalist> -->
       <span class="validation-message"
-        *ngIf="myForm.get('location')?.hasError('required') && (myForm.get('location')?.touched || myForm.get('location')?.dirty)">
+        *ngIf="myForm.get('location_Name')?.hasError('required') && (myForm.get('location_Name')?.touched || myForm.get('location')?.dirty)">
         Location is required.
       </span>
     </div>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Resource } from '../interfaces';
+import { Designation, Manager, Project, Resource } from '../interfaces';
 import { CommonModule } from '@angular/common';
 import { HttpClientService } from '../Services/http-client.service';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
@@ -24,6 +24,10 @@ import { FormsModule } from '@angular/forms';
 
 
 export class HomeComponent {
+  designations: Designation[] = [];
+  locations: Location[] = [];
+  projects: Project[] = [];
+  reportingTo: Manager[] = [];
 
   selectedEmpIds: string[] = [];
   showBulkEditDialog: boolean = false;
@@ -45,9 +49,22 @@ export class HomeComponent {
       this.resourcesArray = (response as Array<Resource>)
       console.log(this.resourcesArray)
     })
+
+    this.httpClientService.getDesignations().subscribe({
+      next: (data) => {
+        this.designations = data;
+        console.log("designation", this.designations);
+      },
+      error: (err) => {
+        console.error("Error in fetching designation", err);
+      }
+    });
+    // this.httpClientService.getLocations().subscribe(data => this.locations = data);
+    this.httpClientService.getProjects().subscribe(data => this.projects = data);
+    this.httpClientService.getReportingTo().subscribe(data => this.reportingTo = data);
   }
   onEdit(empId: any) {
-    debugger
+    // debugger
     this.router.navigate([`/Add-Edit/${empId}`]);
   }
 
@@ -87,8 +104,6 @@ export class HomeComponent {
         console.error(err);
       }
     });
-
-
   }
   cancelDelete() {
     this.showDialog = false;
@@ -107,23 +122,16 @@ export class HomeComponent {
 
 
   editableFields = [
-    { key: 'designation', label: 'Designation', selected: false, value: '' },
-    { key: 'reportingTo', label: 'Reporting To', selected: false, value: '' },
-    { key: 'billable', label: 'Billable', selected: false, value: '' },
-    { key: 'project_Allocate', label: 'Project Allocation', selected: false, value: '' },
-    { key: 'location', label: 'Location', selected: false, value: '' },
+    { key: 'designationId', label: 'Designation', selected: false, value: '', dataLabel: 'designation_Name' },
+    { key: 'managerId', label: 'Reporting To', selected: false, value: '', dataLabel: 'manager_Name' },
+    { key: 'billable', label: 'Billable', selected: false, value: '', dataLabel: '' },
+    { key: 'projectIds', label: 'Project Allocation', selected: false, value: [], dataLabel: 'project_Name' },
+    { key: 'locationId', label: 'Location', selected: false, value: '', dataLabel: 'location_Name' },
   ];
 
-  // editSelected(){
-  //   if(this.selectedEmpIds.length >0){
-  //     const empIdsParam = this.selectedEmpIds.join(',');
-  //     this.router.navigate(['/Add-Edit'], {queryParams:{empIds:empIdsParam}})
-  //   }
-  // }
 
   submitBulkUpdate() {
-    // const updatedFields: any = {};
-    debugger
+    console.log("Inside Submit Bulk Update Button");
     const updatedFields = this.editableFields
       .filter(f => f.selected)
       .reduce((acc, field) => {
@@ -135,31 +143,7 @@ export class HomeComponent {
       empIds: this.selectedEmpIds,
       updatedFields: updatedFields
     };
-
     this.showConfirmationDialog = true;
-
-    // this.editableFields.forEach(field => {
-    //   if (field.selected) {
-    //     updatedFields[field.key] = field.value;
-    //   }
-    // });
-
-    const payload = this.selectedEmpIds.map(empId => ({
-      EmpId: empId,
-      ...updatedFields
-    }));
-    console.log('Payload being sent:', payload);
-    this.httpClientService.bulkUpdateEmployeeDetails(payload).subscribe({
-      next: () => {
-        this.showBulkEditDialog = false;
-
-        // Refresh data
-        this.loadAllResources(); // if you have a method for this
-      },
-      error: err => {
-        console.error('Bulk update failed', err);
-      }
-    });
   }
 
   objectKeys = Object.keys;
@@ -169,10 +153,11 @@ export class HomeComponent {
   }
 
   confirmBulkUpdate() {
-    const payload = this.confirmationData.empIds.map(empId => ({
-      EmpId: empId,
+    console.log("ConfirmationData", this.confirmationData);
+    const payload = {
+      empIds: this.confirmationData.empIds,
       ...this.confirmationData.updatedFields
-    }));
+    };
 
     this.httpClientService.bulkUpdateEmployeeDetails(payload).subscribe({
       next: () => {
@@ -225,6 +210,24 @@ export class HomeComponent {
     return fieldLabels[key] || key;
   }
 
+  isDropdown(fieldKey: string): boolean {
+    return ['designationId', 'managerId', 'projectIds', 'locationId'].includes(fieldKey);
+  }
+
+  getOptions(fieldKey: string): any[] {
+    switch (fieldKey) {
+      case 'designationId':
+        return this.designations;
+      case 'managerId':
+        return this.reportingTo;
+      case 'projectIds':
+        return this.projects;
+      case 'locationId':
+        return this.locations;
+      default:
+        return [];
+    }
+  }
 
 
 }
