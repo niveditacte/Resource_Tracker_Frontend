@@ -60,24 +60,6 @@
             Bulk Edit Selected Employees
         </kendo-dialog-titlebar>
 
-        <!-- <form (ngSubmit)="submitBulkUpdate()">
-            <div *ngFor="let field of editableFields">
-                <label>
-                    <input type="checkbox" [(ngModel)]="field.selected" [name]="field.key + '_chk'"> {{ field.label }}
-                </label>
-
-                <div *ngIf="field.selected" style="margin-bottom: 15px;">
-                    <input [(ngModel)]="field.value" [name]="field.key" class="k-textbox"
-                        placeholder="New {{ field.label }}" />
-                </div>
-            </div>
-
-            <kendo-dialog-actions>
-                <button class="k-button" type="button" (click)="showBulkEditDialog = false">Cancel</button>
-                <button class="k-button k-primary" type="submit">Apply Changes</button>
-            </kendo-dialog-actions>
-        </form> -->
-
         <form (ngSubmit)="submitBulkUpdate()">
             <div *ngFor="let field of editableFields">
                 <label>

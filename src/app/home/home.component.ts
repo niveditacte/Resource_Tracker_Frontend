@@ -11,9 +11,8 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { FormsModule } from '@angular/forms';
-
-
-
+import { EmployeeDataService } from '../Services/employee-data.service'; 
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -24,6 +23,8 @@ import { FormsModule } from '@angular/forms';
 
 
 export class HomeComponent {
+
+
   designations: Designation[] = [];
   locations: Location[] = [];
   projects: Project[] = [];
@@ -41,7 +42,7 @@ export class HomeComponent {
   } = { empIds: [], updatedFields: {} };
 
 
-  constructor(private httpClientService: HttpClientService, private router: Router, private notificationService: NotificationService) { };
+  constructor(private httpClientService: HttpClientService, private router: Router, private notificationService: NotificationService, private employeeDataService: EmployeeDataService, private cdr: ChangeDetectorRef) { };
   resourcesArray: Array<Resource> = [];
 
   ngOnInit() {
@@ -62,7 +63,20 @@ export class HomeComponent {
     // this.httpClientService.getLocations().subscribe(data => this.locations = data);
     this.httpClientService.getProjects().subscribe(data => this.projects = data);
     this.httpClientService.getReportingTo().subscribe(data => this.reportingTo = data);
+    this.loadEmployees(); // initial load
+
+    // 🔁 listen for refresh trigger
+    this.employeeDataService.refreshNeeded$.subscribe(() => {
+      this.loadEmployees();
+    });
   }
+  loadEmployees() {
+    this.httpClientService.getAllEmployees().subscribe((response) => {
+      this.resourcesArray = [...(response as Resource[])];
+      console.log(this.resourcesArray)
+      this.cdr.detectChanges();
+    })
+  };
   onEdit(empId: any) {
     // debugger
     this.router.navigate([`/Add-Edit/${empId}`]);

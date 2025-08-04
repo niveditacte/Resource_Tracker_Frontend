@@ -10,7 +10,10 @@ import { Resource } from '../interfaces';
 import { MatIconModule } from '@angular/material/icon';
 import * as XLSX from 'xlsx';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { NotificationService } from '@progress/kendo-angular-notification';
+import { EmployeeDataService
+  
+ } from '../Services/employee-data.service';
 @Component({
   selector: 'app-maincomp',
   standalone: true,
@@ -19,8 +22,9 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './maincomp.component.scss'
 })
 export class MaincompComponent {
+
   resourcesArray: Array<Resource> = [];
-  constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef) { }
+  constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef, private notificationService: NotificationService, private employeeDataService: EmployeeDataService) { }
   NavigateTab(route: string) {
     this.router.navigate([route]);
   }
@@ -37,81 +41,6 @@ export class MaincompComponent {
     })
   };
 
-  exportToCSV() {
-
-    this.httpClientService.getAllEmployeesDownload().subscribe(response => {
-      const data = response as Resource[];
-      if (!data || data.length === 0) {
-        alert("No data to export.");
-        return;
-      }
-
-      const csvRows: string[] = [];
-      const headers = [
-        'Employee ID',
-        'Name',
-        'Designation',
-        'Reporting To',
-        'Billable',
-        'Tech Skill',
-        'Project Allocation',
-        'Location',
-        'Email ID',
-        'CTE DOJ',
-        'Remarks',
-        'Exported At'
-      ];
-
-      csvRows.push(headers.join(','));
-
-      data.forEach(item => {
-        const row = [
-          `E${item.empId.toString().padStart(4, '0')}`,
-          item.employee_Name,
-          item.designation_Name,
-          item.reportingToName,
-          item.billable,
-          item.skills,
-          item.projects,
-          item.location_Name,
-          item.emailId,
-          item.ctE_DOJ,
-          item.remarks,
-          item.exportedAt ? new Date(item.exportedAt).toISOString().slice(0, 19).replace('T', ' ') : ''
-
-        ].map(field => `"${(field ?? '').toString().replace(/"/g, '""')}"`); // Escape quotes
-        csvRows.push(row.join(','));
-      });
-      // console.log('Exporting:', this.resourcesArray);
-
-      const csvContent = csvRows.join('\n');
-      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'ResourceDetails.csv');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    });
-
-    // this.httpClientService.getAllEmployeesDownload().subscribe({
-    //   next: (response: Blob) => {
-    //     const url = window.URL.createObjectURL(response);
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', 'ResourceDetails.csv');
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    //   },
-    //   error: (err) => {
-    //     alert("Failed to download CSV.");
-    //     console.error(err);
-    //   }
-    // });
-  }
 
   onExcelUpload(event: any): void {
     const target: DataTransfer = <DataTransfer>(event.target);
@@ -141,10 +70,27 @@ export class MaincompComponent {
   bulkUploadResources(resourceArray: any[]): void {
     this.httpClientService.bulkImportResources(resourceArray).subscribe({
       next: (res) => {
+        this.notificationService.show({
+        content: 'Employees data imported successfully',
+        cssClass: 'button-notification',
+        animation: { type: 'fade', duration: 200 },
+        position: { horizontal: 'right', vertical: 'top' },
+        type: { style: 'success', icon: true },
+        hideAfter: 2000
+      });
         console.log('Bulk import successful', res);
-        this.loadEmployees();
+        // this.loadEmployees();
+        this.employeeDataService.triggerRefresh(); 
       },
       error: (err) => {
+         this.notificationService.show({
+        content: 'Failed to import employees data',
+        cssClass: 'button-notification',
+        animation: { type: 'fade', duration: 200 },
+        position: { horizontal: 'right', vertical: 'top' },
+        type: { style: 'error', icon: true },
+        hideAfter: 2000
+      });
         console.error('Bulk import failed', err);
       }
     });
@@ -165,6 +111,27 @@ export class MaincompComponent {
       error: (err) => console.error('Failed to load employees', err)
     });
   }
+
+  exportEmployeesToCSV() {
+    this.httpClientService.getEmployeesForExport().subscribe({
+      next: (response: Blob) => {
+        const blob = new Blob([response], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', 'EmployeeExport.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error: (err) => {
+        console.error('Export failed:', err);
+        alert('Failed to export employee data.');
+      }
+    });
+  }
+
 
 }
 

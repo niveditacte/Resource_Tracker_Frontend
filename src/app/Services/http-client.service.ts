@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Designation, Manager, Project, Resource, Skills, Location } from '../interfaces';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,12 @@ export class HttpClientService {
     const endpoint = this.ServerURI + '/import';
     return this.httpclient.post(endpoint, resources);
   }
+
+  getEmployeesForExport() {
+  const url = `${this.ServerURI}/export`; 
+  return this.httpclient.get(url, { responseType: 'blob' }); 
+}
+
 
   getDesignations(): Observable<Designation[]> {
     return this.httpclient.get<Designation[]>(this.ServerURI + '/designations');
