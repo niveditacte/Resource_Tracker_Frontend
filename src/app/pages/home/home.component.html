@@ -69,7 +69,7 @@
                 <div *ngIf="field.selected" style="margin-bottom: 15px;">
                     <!-- For dropdown fields -->
                     <select *ngIf="isDropdown(field.key)" [(ngModel)]="field.value" [name]="field.key">
-                        class="k-textbox">
+                       
                         <option [ngValue]="''" disabled selected>Select {{ field.label }}</option>
                         <option *ngFor="let option of getOptions(field.key)" [ngValue]="option[field.key]">
                             {{ option[field.dataLabel] }}
@@ -77,7 +77,14 @@
                     </select>
 
                     <!-- For other fields (like billable) -->
-                    <input *ngIf="!isDropdown(field.key)" [(ngModel)]="field.value" [name]="field.key" class="k-textbox"
+                    <ng-container *ngIf="field.key === 'billable'">
+                        <select [(ngModel)]="field.value" [name]="field.key" class="k-dropdown">
+                            <option [ngValue]="''" disabled selected>Select Billable</option>
+                            <option [ngValue]="'Yes'">Yes</option>
+                            <option [ngValue]="'No'">No</option>
+                        </select>
+                    </ng-container>
+                    <input *ngIf="!isDropdown(field.key) && field.key !== 'billable'" [(ngModel)]="field.value" [name]="field.key" class="k-textbox"
                         placeholder="New {{ field.label }}" />
                 </div>
             </div>

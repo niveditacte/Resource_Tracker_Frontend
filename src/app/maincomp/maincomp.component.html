@@ -15,6 +15,12 @@
             <mat-icon style="vertical-align: middle; margin-right: 6px;">upload</mat-icon>
             Import Excel
         </button>
+        <button *ngIf="isAdmin" kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/register')">
+            <mat-icon style="vertical-align: middle; margin-right: 6px;">person</mat-icon>
+            Register User
+        </button>
+
+
         <input type="file" #fileInput style="display: none" accept=".xlsx, .xls" (change)="onExcelUpload($event)" />
     </div>
 

@@ -1,0 +1,95 @@
+body {
+    background: linear-gradient(135deg, #6e8efb, #a777e3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container for heading + form */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Title */
+.login-container h2 {
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+/* Form styling */
+form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 350px;
+}
+
+/* Labels & inputs */
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 93%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #6e8efb;
+    outline: none;
+    box-shadow: 0 0 5px rgba(110, 142, 251, 0.5);
+}
+
+/* Checkbox inline fix */
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #6e8efb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #5b7ce1;
+}
+
+/* Extra links */
+.extra-links {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.extra-links a {
+    color: #6e8efb;
+    text-decoration: none;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}

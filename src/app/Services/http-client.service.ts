@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { Designation, Manager, Project, Resource, Skills, Location } from '../interfaces';
+import { Designation, Manager, Project, Resource, Skills, Location, Role } from '../interfaces';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -84,5 +84,9 @@ export class HttpClientService {
 
   getReportingTo(): Observable<Manager[]> {
     return this.httpclient.get<Manager[]>(this.ServerURI + '/managers');
+  }
+
+  getRoles(): Observable<Role[]> {
+    return this.httpclient.get<Role[]>(this.ServerURI + '/roles');
   }
 }

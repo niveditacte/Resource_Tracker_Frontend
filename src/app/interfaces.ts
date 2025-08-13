@@ -39,3 +39,8 @@ export interface Location {
     locationId: number;
     location_Name: string;
 }
+
+export interface Role {
+    roleId: number;
+    role: string;
+}

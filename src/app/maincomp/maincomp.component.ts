@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { HomeComponent } from '../home/home.component';
+import { HomeComponent } from '../pages/home/home.component';
 import { AddEditComponent } from '../add-edit/add-edit.component';
 import { DetailsComponent } from '../details/details.component';
 import { HttpClientService } from '../Services/http-client.service';
@@ -11,26 +11,31 @@ import { MatIconModule } from '@angular/material/icon';
 import * as XLSX from 'xlsx';
 import { ChangeDetectorRef } from '@angular/core';
 import { NotificationService } from '@progress/kendo-angular-notification';
-import { EmployeeDataService
-  
- } from '../Services/employee-data.service';
+import { EmployeeDataService } from '../Services/employee-data.service';
+import { AuthService } from '../Services/auth.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-maincomp',
   standalone: true,
-  imports: [KENDO_BUTTON, RouterOutlet, MatIconModule],
+  imports: [KENDO_BUTTON, RouterOutlet, MatIconModule,CommonModule],
   templateUrl: './maincomp.component.html',
   styleUrl: './maincomp.component.scss'
 })
 export class MaincompComponent {
 
+  isAdmin: boolean = false;
+
   resourcesArray: Array<Resource> = [];
-  constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef, private notificationService: NotificationService, private employeeDataService: EmployeeDataService) { }
+  constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef, private notificationService: NotificationService, private employeeDataService: EmployeeDataService, private authService: AuthService) { }
   NavigateTab(route: string) {
     this.router.navigate([route]);
   }
 
   ngOnInit() {
     this.loadEmployees();
+
+    const role = this.authService.getUserRole();
+    this.isAdmin = (role === 'Admin');
   }
 
   loadEmployees() {

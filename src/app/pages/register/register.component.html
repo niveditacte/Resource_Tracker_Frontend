@@ -1,0 +1,32 @@
+<div class="page-center">
+  <div class="register-container">
+      <h2>Register User</h2>
+      <form [formGroup]="registerform" (ngSubmit)="onRegister()">
+          <div>
+              <label>Username</label>
+              <input type="text" formControlName="username">
+          </div>
+
+          <div>
+              <label>Email</label>
+              <input type="email" formControlName="email">
+          </div>
+
+          <div>
+              <label>Password</label>
+              <input type="password" formControlName="password">
+          </div>
+
+          <div>
+              <label>Role</label>
+              <select formControlName="roleId">
+                  <option value="" disabled selected>Select Role</option>
+                  <option *ngFor="let role of roles" [value]="role.roleId">{{ role.role }}</option>
+              </select>
+          </div>
+          <button type="submit">Register</button>
+      </form>
+      <p *ngIf="message" class="success">{{ message }}</p>
+      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+  </div>
+</div>

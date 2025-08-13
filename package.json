@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@auth0/angular-jwt": "^5.2.0",
     "@ng-select/ng-select": "^14.0.0",
     "@progress/kendo-angular-buttons": "19.1.1",
     "@progress/kendo-angular-common": "19.1.1",

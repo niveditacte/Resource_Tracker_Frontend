@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Designation, Manager, Project, Resource } from '../interfaces';
+import { Designation, Manager, Project, Resource, Location } from '../../interfaces';
 import { CommonModule } from '@angular/common';
-import { HttpClientService } from '../Services/http-client.service';
+import { HttpClientService } from '../../Services/http-client.service';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { KENDO_GRID } from '@progress/kendo-angular-grid';
@@ -11,7 +11,7 @@ import { DialogModule } from '@progress/kendo-angular-dialog';
 import { NotificationModule } from '@progress/kendo-angular-notification';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { FormsModule } from '@angular/forms';
-import { EmployeeDataService } from '../Services/employee-data.service'; 
+import { EmployeeDataService } from '../../Services/employee-data.service'; 
 import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-home',
@@ -23,8 +23,6 @@ import { ChangeDetectorRef } from '@angular/core';
 
 
 export class HomeComponent {
-
-
   designations: Designation[] = [];
   locations: Location[] = [];
   projects: Project[] = [];
@@ -60,9 +58,10 @@ export class HomeComponent {
         console.error("Error in fetching designation", err);
       }
     });
-    // this.httpClientService.getLocations().subscribe(data => this.locations = data);
+
     this.httpClientService.getProjects().subscribe(data => this.projects = data);
     this.httpClientService.getReportingTo().subscribe(data => this.reportingTo = data);
+    this.httpClientService.getLocations().subscribe(data => this.locations = data);
     this.loadEmployees(); // initial load
 
     // 🔁 listen for refresh trigger
