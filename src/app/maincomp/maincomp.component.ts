@@ -24,6 +24,9 @@ import { CommonModule } from '@angular/common';
 export class MaincompComponent {
 
   isAdmin: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+  isHR: boolean = false;
 
   resourcesArray: Array<Resource> = [];
   constructor(private httpClientService: HttpClientService, private router: Router, private cdr: ChangeDetectorRef, private notificationService: NotificationService, private employeeDataService: EmployeeDataService, private authService: AuthService) { }
@@ -36,6 +39,13 @@ export class MaincompComponent {
 
     const role = this.authService.getUserRole();
     this.isAdmin = (role === 'Admin');
+    this.isManager = (role === 'Manager');
+    this.isUser = (role === 'User');  
+    this.isHR = (role === 'HR');  
+  }
+
+   onLogout() {
+    this.authService.logout();
   }
 
   loadEmployees() {

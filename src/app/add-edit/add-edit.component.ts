@@ -7,12 +7,13 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NotificationService } from '@progress/kendo-angular-notification';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-add-edit',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, NgSelectModule],
+  imports: [ReactiveFormsModule, CommonModule, HttpClientModule, NgSelectModule, MatIconModule],
   templateUrl: './add-edit.component.html',
   styleUrl: './add-edit.component.scss'
 })
@@ -294,5 +295,11 @@ export class AddEditComponent {
         }
       });
     }
+  }
+ 
+  onCancel(): void {
+    // You can reset the form, navigate away, or close a dialog as needed
+    this.myForm.reset();
+    this.router.navigate(['/Home']);
   }
 }

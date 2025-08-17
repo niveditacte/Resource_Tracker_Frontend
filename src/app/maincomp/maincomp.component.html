@@ -1,29 +1,51 @@
-<nav class="navbar">
-    <div class="left-button">
-        <button kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/Home')">
-            <mat-icon style="vertical-align: middle; margin-right: 6px;">home</mat-icon>Home
-        </button>
-    </div>
-    <div class="right-button">
-        <button kendoButton look="outline" themeColor="primary" (click)="exportEmployeesToCSV()">
-            <mat-icon style="vertical-align: middle; margin-right: 6px;">download</mat-icon>Export to CSV
-        </button>
-        <button kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/Add-Edit')">
-            <mat-icon style="vertical-align: middle; margin-right: 6px;">add</mat-icon>Add Resource
-        </button>
-        <button kendoButton look="outline" themeColor="primary" (click)="fileInput.click()">
-            <mat-icon style="vertical-align: middle; margin-right: 6px;">upload</mat-icon>
-            Import Excel
-        </button>
-        <button *ngIf="isAdmin" kendoButton look="outline" themeColor="primary" (click)="NavigateTab('/register')">
-            <mat-icon style="vertical-align: middle; margin-right: 6px;">person</mat-icon>
-            Register User
-        </button>
+<div class="app-layout">
+
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="app-title">RT</h2>
+        </div>
+
+        <div class="sidebar-nav">
+            <button class="nav-item" data-tooltip="Home" (click)="NavigateTab('/Home')">
+                <mat-icon>home</mat-icon>
+                <span class="nav-text">Home</span>
+            </button>
+
+            <button class="nav-item" data-tooltip="Export to CSV" (click)="exportEmployeesToCSV()">
+                <mat-icon>download</mat-icon>
+                <span class="nav-text">Export to CSV</span>
+            </button>
+
+            <button *ngIf="isAdmin || isManager" class="nav-item" data-tooltip="Add Resource"
+                (click)="NavigateTab('/Add-Edit')">
+                <mat-icon>add</mat-icon>
+                <span class="nav-text">Add Resource</span>
+            </button>
+
+            <button *ngIf="isAdmin || isManager || isHR" class="nav-item" data-tooltip="Import Excel" (click)="fileInput.click()">
+                <mat-icon>upload</mat-icon>
+                <span class="nav-text">Import Excel</span>
+            </button>
+
+            <button *ngIf="isAdmin" class="nav-item" data-tooltip="Register User" (click)="NavigateTab('/register')">
+                <mat-icon>person</mat-icon>
+                <span class="nav-text">Register User</span>
+            </button>
+        </div>
+        <div class="sidebar-footer">
+            <button class="nav-item logout-btn" data-tooltip="Logout" (click)="NavigateTab('/login')">
+                <mat-icon>logout</mat-icon>
+                <span class="nav-text">Logout</span>
+            </button>
+        </div>
 
 
         <input type="file" #fileInput style="display: none" accept=".xlsx, .xls" (change)="onExcelUpload($event)" />
-    </div>
+    </nav>
+    <main class="main-content-wrapper">
+    <router-outlet></router-outlet>
+    
+  </main>
+  <div class="tooltip" id="tooltip"></div>
 
-</nav>
-
-<router-outlet></router-outlet>
+</div>

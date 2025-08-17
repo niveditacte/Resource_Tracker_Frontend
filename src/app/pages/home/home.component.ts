@@ -13,6 +13,7 @@ import { NotificationService } from '@progress/kendo-angular-notification';
 import { FormsModule } from '@angular/forms';
 import { EmployeeDataService } from '../../Services/employee-data.service'; 
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../Services/auth.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -28,6 +29,11 @@ export class HomeComponent {
   projects: Project[] = [];
   reportingTo: Manager[] = [];
 
+  isAdmin: boolean = false;
+  isManager: boolean = false;
+  isUser: boolean = false;
+  isHR: boolean = false;
+
   selectedEmpIds: string[] = [];
   showBulkEditDialog: boolean = false;
   empIdToDelete!: string;
@@ -40,7 +46,7 @@ export class HomeComponent {
   } = { empIds: [], updatedFields: {} };
 
 
-  constructor(private httpClientService: HttpClientService, private router: Router, private notificationService: NotificationService, private employeeDataService: EmployeeDataService, private cdr: ChangeDetectorRef) { };
+  constructor(private httpClientService: HttpClientService, private router: Router, private notificationService: NotificationService, private employeeDataService: EmployeeDataService, private cdr: ChangeDetectorRef, private authService:AuthService) { };
   resourcesArray: Array<Resource> = [];
 
   ngOnInit() {
@@ -68,6 +74,14 @@ export class HomeComponent {
     this.employeeDataService.refreshNeeded$.subscribe(() => {
       this.loadEmployees();
     });
+
+    const role = this.authService.getUserRole();
+    this.isAdmin = (role === 'Admin');
+    this.isManager = (role === 'Manager');
+    this.isUser = (role === 'User');
+    this.isHR = (role === 'HR');
+
+  
   }
   loadEmployees() {
     this.httpClientService.getAllEmployees().subscribe((response) => {

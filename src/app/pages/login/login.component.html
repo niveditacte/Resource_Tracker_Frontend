@@ -1,28 +1,93 @@
+<!-- <h3 class="app-title">Resource Tracker</h3>
 <div class="login-container">
-    <h2>Login</h2>
+    <h1>Login</h1>
     <form (ngSubmit)="onLogin()">
-        <div>
+         <div class="form-group">
             <label for="emailorUsername">Username or Email</label>
-            <input type="text" id="emailorUsername" [(ngModel)]="loginValue" name="emailorUsername" required />
+            <input kendoTextBox
+                   id="emailorUsername"
+                   [(ngModel)]="loginValue"
+                   name="emailorUsername"
+                   placeholder="Enter username or email"
+                   required />
         </div>
-
-        <div>
+        <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" [(ngModel)]="password" name="password" required />
-            <!-- <small><a href="#">Forgot Password?</a></small> -->
+            <input kendoTextBox
+                   type="password"
+                   id="password"
+                   [(ngModel)]="password"
+                   name="password"
+                   placeholder="Enter password"
+                   required />
         </div>
 
-        <!-- <div class="checkbox-row">
+        <div class="checkbox-row">
             <input type="checkbox" id="remember" name="remember" />
             <label for="remember">Remember me</label>
         </div> -->
 
-        <button type="submit">Login</button>
+<!-- <div class="form-actions">
+            <button kendoButton
+                    look="outline"
+                    themeColor="primary"
+                    type="submit">
+                Login
+            </button>
+        </div>
 
         <div *ngIf="errorMessage" class="error">{{errorMessage}}</div>
 
-        <!-- <div class="extra-links">
-            <p>Don't have an account? <a href="http://localhost:4200/register">Sign Up</a></p>
-        </div> -->
     </form>
+</div> -->
+<div class="login-wrapper">
+    <!-- Left Side -->
+    <div class="login-left">
+        <div class="brand">
+            <h1>Log in to<br><span>Resource Tracker</span></h1>
+        </div>
+    </div>
+
+    <!-- Right Side -->
+    <div class="login-right">
+        <div class="login-card">
+            <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+
+                <div class="form-group">
+                    <label for="emailOrUsername">Username or Email</label>
+                    <input kendoTextBox id="emailOrUsername" [(ngModel)]="loginValue" name="emailOrUsername"
+                        placeholder="Enter username or email" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input kendoTextBox type="password" id="password" [(ngModel)]="password" name="password"
+                        placeholder="At least 8 characters" required />
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" id="rememberMe" [(ngModel)]="rememberMe" name="rememberMe" />
+                    <label for="rememberMe">Remember me</label>
+                </div>
+
+                <button kendoButton class="login-btn" themeColor="primary" type="submit">
+                    Log in
+                </button>
+
+                <!-- <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <button type="button" class="google-btn">
+                    <img src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" />
+                    Continue with Google
+                </button> -->
+
+                <!-- <p class="links">
+                    Don't have an account? <a href="#">Sign up ></a><br>
+                    Forgot your password? <a href="#">Recover ></a>
+                </p> -->
+
+            </form>
+        </div>
+    </div>
 </div>

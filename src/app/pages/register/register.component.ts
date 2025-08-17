@@ -5,10 +5,14 @@ import { AuthService } from '../../Services/auth.service';
 import { HttpClientService } from '../../Services/http-client.service';
 import { Router } from '@angular/router';
 import { Role } from '../../interfaces';
+import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
+import { InputsModule } from '@progress/kendo-angular-inputs';
+import { KENDO_BUTTON } from '@progress/kendo-angular-buttons';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, DropDownsModule, InputsModule, KENDO_BUTTON, MatIconModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

@@ -1,148 +1,267 @@
-<h1>Resource Input Form</h1>
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-  <div class="form-row">
-    <!-- Resource Name -->
-    <div class="form-group">
-      <label for="employee_Name">Resource Name<span class="required-field">*</span></label>
-      <input type="text" formControlName="employee_Name" placeholder="Give full name">
-      <span class="validation-message"
-        *ngIf="myForm.get('employee_Name')?.hasError('required') && (myForm.get('employee_Name')?.touched || myForm.get('resource_Name')?.dirty)">
-        Resource name is required.
-      </span>
+<div class="add-resource-content">
+  <div class="form-header">
+    <div class="header-icon">
+      <mat-icon>person_add</mat-icon>
     </div>
-
-    <!-- Designation -->
-    <div class="form-group">
-      <label for="designation_Name">Designation<span class="required-field">*</span></label>
-      <select name="" id="designation_Name" [value]="null" formControlName="designationId" >
-        <option [value]="null" hidden selected>Select Designation</option>
-        <option *ngFor="let designation of designations" [value]="designation.designationId">{{
-          designation.designation_Name }}</option>
-      </select>
-      <!-- <input type="text" formControlName="designationId" placeholder="Ex. Trainee, Developer" list="designationList">
-      <datalist id="designationList">
-        <option *ngFor="let item of designations" [value]=""></option>
-      </datalist> -->
-      <span class="validation-message"
-        *ngIf="myForm.get('designation_Name')?.hasError('required') && (myForm.get('designation_Name')?.touched || myForm.get('designation')?.dirty)">
-        Designation is required.
-      </span>
-    </div>
-  </div>
-  <!-- Reporting To -->
-  <div class="form-row">
-    <div class="form-group">
-      <label for="reportingToName">Reporting To<span class="required-field">*</span></label>
-      <!-- <input type="text" formControlName="managerId" placeholder="Manager/Supervisor" list="reportingToList"> -->
-      <select name="" id="reportingToName" [value]="null" formControlName="managerId">
-        <option [value]="null" hidden selected>Select Manager</option>
-        <option *ngFor="let manager of ManagerList" [value]="manager?.managerId">{{
-          manager?.manager_Name }}</option>
-      </select>
-      <!-- <datalist id="reportingToList">
-        <option *ngFor="let item of reportingToList" [value]="item"></option>
-      </datalist> -->
-
-      <span class="validation-message"
-        *ngIf="myForm.get('reportingToName')?.hasError('required') && (myForm.get('reportingToName')?.touched || myForm.get('reportingTo')?.dirty)">
-        Reporting manager name is required.
-      </span>
-    </div>
-
-    <!-- Billable -->
-    <div class="form-group">
-      <label for="billable">Billable<span class="required-field">*</span></label>
-      <select formControlName="billable">
-        <option value="" disabled selected>Select Billable status</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-      <span class="validation-message"
-        *ngIf="myForm.get('billable')?.hasError('required') && (myForm.get('billable')?.touched || myForm.get('billable')?.dirty)">
-        Billable status is required.
-      </span>
-    </div>
-  </div>
-  <!-- Technology Skill -->
-  <label for="skills">Technology/Skill<span class="required-field">*</span></label>
-  <ng-select formControlName="skillsIds" [items]="skills_array" bindLabel="skill_Name" bindValue="skillId"
-    [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true">
-  </ng-select>
-  <!-- <input type="text" formControlName="skills" placeholder="Write about skills" list="skillsList">
-  <datalist id="skillsList">
-    <option *ngFor="let item of skills_array" [value]="item"></option>
-  </datalist> -->
-  <span class="validation-message"
-    *ngIf="myForm.get('skills')?.hasError('required') && (myForm.get('skills')?.touched || myForm.get('technology_Skill')?.dirty)">
-    Technology/Skill is required.
-  </span>
-
-  <div class="form-row">
-    <!-- Project Allocation -->
-    <div class="form-group">
-      <label for="projects">Project Allocation<span class="required-field">*</span></label>
-      <!-- <input type="text" formControlName="projects" placeholder="Assigned project name" list="projectList">
-      <datalist id="projectList">
-        <option *ngFor="let item of projects_array" [value]="item"></option>
-      </datalist> -->
-      <ng-select formControlName="projectsIds" [items]="projects_array" bindLabel="project_Name" bindValue="projectId"
-        [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true">
-      </ng-select>
-      <span class="validation-message"
-        *ngIf="myForm.get('projects')?.hasError('required') && (myForm.get('projects')?.touched || myForm.get('project_Allocate')?.dirty)">
-        Project Allocation is required.
-      </span>
-    </div>
-
-    <!-- Location -->
-    <div class="form-group">
-      <label for="location_Name">Location<span class="required-field">*</span></label>
-      <select name="" id="location_Name" [value]="null" formControlName="locationId">
-        <option [value]="null" hidden selected>Select Location</option>
-        <option *ngFor="let location of locations" [value]="location.locationId">{{
-          location.location_Name }}</option>
-      </select>
-      <!-- <input type="text" formControlName="location_Name" placeholder="Current working location" list="locationList">
-      <datalist id="locationList">
-        <option *ngFor="let item of locations" [value]="item"></option>
-      </datalist> -->
-      <span class="validation-message"
-        *ngIf="myForm.get('location_Name')?.hasError('required') && (myForm.get('location_Name')?.touched || myForm.get('location')?.dirty)">
-        Location is required.
-      </span>
-    </div>
-  </div>
-  <div class="form-row">
-    <!-- Email Id -->
-    <div class="form-group">
-      <label for="emailId">Email Id<span class="required-field">*</span></label>
-      <input type="text" formControlName="emailId" placeholder="Write Email Id here">
-      <span class="validation-message"
-        *ngIf="myForm.get('emailId')?.hasError('required') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
-        Email is required.
-      </span>
-      <span class="validation-message"
-        *ngIf="myForm.get('emailId')?.hasError('email') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
-        Enter a valid email.
-      </span>
-    </div>
-
-    <!-- CTE_DOJ -->
-    <div class="form-group">
-      <label for="ctE_DOJ">CTE_DOJ<span class="required-field">*</span></label>
-      <input type="date" formControlName="ctE_DOJ" placeholder="Date of Joining">
-      <span class="validation-message"
-        *ngIf="myForm.get('ctE_DOJ')?.hasError('required') && (myForm.get('ctE_DOJ')?.touched || myForm.get('ctE_DOJ')?.dirty)">
-        Date of joining is required.
-      </span>
-    </div>
+    <h1 class="form-title">Resource Input Form</h1>
+    <p class="form-subtitle">Add new resource to your organization</p>
   </div>
 
-  <!-- Remarks -->
-  <label for="remarks">Remarks</label>
-  <input type="text" formControlName="remarks" placeholder="Write remarks here...">
+  <div class="form-container">
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="resource-form">
 
-  <!-- Submit Button -->
-  <button type="submit" [disabled]="!myForm.valid">Submit</button>
+      <!-- Personal Information Section -->
+      <!-- <div class="form-section"> -->
+        <!-- <div class="section-header">
+          <mat-icon>person</mat-icon>
+          <h3>Personal Information</h3>
+        </div> -->
 
-</form>
+        <div class="form-row">
+          <!-- Resource Name -->
+          <div class="form-group">
+            <label for="employee_Name" class="form-label">
+              Resource Name
+              <span class="required-field">*</span>
+            </label>
+            <div class="input-wrapper">
+              <mat-icon class="input-icon">account_circle</mat-icon>
+              <input type="text" id="employee_Name" formControlName="employee_Name" placeholder="Enter full name"
+                class="form-input">
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('employee_Name')?.hasError('required') && (myForm.get('employee_Name')?.touched || myForm.get('employee_Name')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Resource name is required.
+            </div>
+          </div>
+
+          <!-- Email Id -->
+          <div class="form-group">
+            <label for="emailId" class="form-label">
+              Email Address
+              <span class="required-field">*</span>
+            </label>
+            <div class="input-wrapper">
+              <mat-icon class="input-icon">email</mat-icon>
+              <input type="email" id="emailId" formControlName="emailId" placeholder="Enter email address"
+                class="form-input">
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('emailId')?.hasError('required') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Email is required.
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('emailId')?.hasError('email') && (myForm.get('emailId')?.touched || myForm.get('emailId')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Enter a valid email address.
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+
+      <!-- Professional Information Section -->
+      <!-- <div class="form-section"> -->
+        <!-- <div class="section-header">
+          <mat-icon>work</mat-icon>
+          <h3>Professional Information</h3>
+        </div> -->
+
+        <div class="form-row">
+          <!-- Designation -->
+          <div class="form-group">
+            <label for="designation_Name" class="form-label">
+              Designation
+              <span class="required-field">*</span>
+            </label>
+            <div class="select-wrapper">
+              <mat-icon class="input-icon">badge</mat-icon>
+              <select id="designation_Name" [value]="null" formControlName="designationId" class="form-select">
+                <option [value]="null" disabled selected>Select Designation</option>
+                <option *ngFor="let designation of designations" [value]="designation.designationId">
+                  {{ designation.designation_Name }}
+                </option>
+              </select>
+              <mat-icon class="dropdown-icon">expand_more</mat-icon>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('designationId')?.hasError('required') && (myForm.get('designationId')?.touched || myForm.get('designationId')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Designation is required.
+            </div>
+          </div>
+
+          <!-- Reporting To -->
+          <div class="form-group">
+            <label for="reportingToName" class="form-label">
+              Reporting Manager
+              <span class="required-field">*</span>
+            </label>
+            <div class="select-wrapper">
+              <mat-icon class="input-icon">supervisor_account</mat-icon>
+              <select id="reportingToName" [value]="null" formControlName="managerId" class="form-select">
+                <option [value]="null" disabled selected>Select Manager</option>
+                <option *ngFor="let manager of ManagerList" [value]="manager?.managerId">
+                  {{ manager?.manager_Name }}
+                </option>
+              </select>
+              <mat-icon class="dropdown-icon">expand_more</mat-icon>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('managerId')?.hasError('required') && (myForm.get('managerId')?.touched || myForm.get('managerId')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Reporting manager is required.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Billable -->
+          <div class="form-group">
+            <label for="billable" class="form-label">
+              Billable Status
+              <span class="required-field">*</span>
+            </label>
+            <div class="select-wrapper">
+              <mat-icon class="input-icon">monetization_on</mat-icon>
+              <select formControlName="billable" class="form-select">
+                <option value="" disabled selected>Select Billable Status</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+              <mat-icon class="dropdown-icon">expand_more</mat-icon>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('billable')?.hasError('required') && (myForm.get('billable')?.touched || myForm.get('billable')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Billable status is required.
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label for="location_Name" class="form-label">
+              Work Location
+              <span class="required-field">*</span>
+            </label>
+            <div class="select-wrapper">
+              <mat-icon class="input-icon">location_on</mat-icon>
+              <select id="location_Name" [value]="null" formControlName="locationId" class="form-select">
+                <option [value]="null" disabled selected>Select Location</option>
+                <option *ngFor="let location of locations" [value]="location.locationId">
+                  {{ location.location_Name }}
+                </option>
+              </select>
+              <mat-icon class="dropdown-icon">expand_more</mat-icon>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('locationId')?.hasError('required') && (myForm.get('locationId')?.touched || myForm.get('locationId')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Location is required.
+            </div>
+          </div>
+        </div>
+
+        <!-- CTE DOJ -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ctE_DOJ" class="form-label">
+              Date of Joining (CTE)
+              <span class="required-field">*</span>
+            </label>
+            <div class="input-wrapper">
+              <mat-icon class="input-icon">event</mat-icon>
+              <input type="date" id="ctE_DOJ" formControlName="ctE_DOJ" class="form-input">
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('ctE_DOJ')?.hasError('required') && (myForm.get('ctE_DOJ')?.touched || myForm.get('ctE_DOJ')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Date of joining is required.
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+
+      <!-- Skills & Projects Section -->
+      <!-- <div class="form-section">
+        <div class="section-header">
+          <mat-icon>code</mat-icon>
+          <h3>Skills & Projects</h3>
+        </div> -->
+
+        <!-- Technology Skills -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label class="form-label">
+              Technology/Skills
+              <span class="required-field">*</span>
+            </label>
+            <div class="ng-select-wrapper">
+              <mat-icon class="input-icon">build</mat-icon>
+              <ng-select formControlName="skillsIds" [items]="skills_array" bindLabel="skill_Name" bindValue="skillId"
+                [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true"
+                placeholder="Select technologies and skills" class="themed-ng-select">
+              </ng-select>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('skillsIds')?.hasError('required') && (myForm.get('skillsIds')?.touched || myForm.get('skillsIds')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Technology/Skills are required.
+            </div>
+          </div>
+
+          <!-- Project Allocation -->
+          <div class="form-group full-width">
+            <label class="form-label">
+              Project Allocation
+              <span class="required-field">*</span>
+            </label>
+            <div class="ng-select-wrapper">
+              <mat-icon class="input-icon">assignment</mat-icon>
+              <ng-select formControlName="projectsIds" [items]="projects_array" bindLabel="project_Name"
+                bindValue="projectId" [multiple]="true" [searchable]="true" [closeOnSelect]="false" [clearable]="true"
+                placeholder="Select assigned projects" class="themed-ng-select">
+              </ng-select>
+            </div>
+            <div class="validation-message"
+              *ngIf="myForm.get('projectsIds')?.hasError('required') && (myForm.get('projectsIds')?.touched || myForm.get('projectsIds')?.dirty)">
+              <mat-icon>error</mat-icon>
+              Project allocation is required.
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+
+      <!-- Additional Information Section -->
+      <!-- <div class="form-section">
+        <div class="section-header">
+          <mat-icon>note</mat-icon>
+          <h3>Additional Information</h3>
+        </div> -->
+
+        <!-- Remarks -->
+        <div class="form-group full-width">
+          <label for="remarks" class="form-label">Remarks</label>
+          <div class="textarea-wrapper">
+            <mat-icon class="input-icon">comment</mat-icon>
+            <textarea id="remarks" formControlName="remarks" placeholder="Enter any additional remarks or notes..."
+              class="form-textarea" rows="2"></textarea>
+          </div>
+        </div>
+      <!-- </div> -->
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" (click)="onCancel()">
+          <mat-icon>close</mat-icon>
+          Cancel
+        </button>
+        <button type="submit" [disabled]="!myForm.valid" class="btn btn-submit">
+          <mat-icon>check</mat-icon>
+          <span>Submit Resource</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

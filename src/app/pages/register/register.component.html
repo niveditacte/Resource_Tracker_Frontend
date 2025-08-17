@@ -1,32 +1,70 @@
 <div class="page-center">
-  <div class="register-container">
-      <h2>Register User</h2>
-      <form [formGroup]="registerform" (ngSubmit)="onRegister()">
-          <div>
-              <label>Username</label>
-              <input type="text" formControlName="username">
-          </div>
+        <div class="register-container">
+            <h2>Register User</h2>
+            
+            <form class="register-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username"
+                        class="themed-input" 
+                        placeholder="Enter username" 
+                        required
+                    />
+                </div>
 
-          <div>
-              <label>Email</label>
-              <input type="email" formControlName="email">
-          </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email"
+                        class="themed-input" 
+                        placeholder="Enter email" 
+                        required
+                    />
+                </div>
 
-          <div>
-              <label>Password</label>
-              <input type="password" formControlName="password">
-          </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        type="password" 
+                        id="password"
+                        class="themed-input" 
+                        placeholder="Enter password" 
+                        required
+                    />
+                </div>
 
-          <div>
-              <label>Role</label>
-              <select formControlName="roleId">
-                  <option value="" disabled selected>Select Role</option>
-                  <option *ngFor="let role of roles" [value]="role.roleId">{{ role.role }}</option>
-              </select>
-          </div>
-          <button type="submit">Register</button>
-      </form>
-      <p *ngIf="message" class="success">{{ message }}</p>
-      <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-  </div>
-</div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" class="themed-dropdown" required>
+                        <option value="" disabled selected>Select Role</option>
+                        <option value="1">Administrator</option>
+                        <option value="2">Manager</option>
+                        <option value="3">HR</option>
+                        <option value="4">Employee</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="register-btn">
+                        <mat-icon>check</mat-icon>
+                        <span>Register</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div class="message success" style="display: none;" id="successMessage">
+                <i class="fas fa-check-circle"></i>
+                <span>User registered successfully!</span>
+            </div>
+
+            <!-- Error Message -->
+            <div class="message error" style="display: none;" id="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Registration failed. Please try again.</span>
+            </div>
+        </div>
+    </div>

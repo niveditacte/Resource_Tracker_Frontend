@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+:root{ 
+  --kendo-color-primary: #9ce3d4;
+  --kendo-color-primary-hover:#9ce3d4 ;
+  --kendo-color-primary-on-surface: #51d6b9;
+  --kendo-color-primary-active: #9ce3d4;
+  --kendo-color-error: #f70606;
+}
 .ng-select-container {
   padding: 10px 12px;
   border-radius: 6px;
@@ -64,3 +71,5 @@
   background-color: #61a0ff;
   color: white;
 }
+
+

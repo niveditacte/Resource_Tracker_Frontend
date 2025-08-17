@@ -1,15 +1,147 @@
-<h1>Resource Details</h1>
-<div *ngIf="employeeDetails">
-  <span><label>EMP ID:</label>   {{ 'E' + (employeeDetails.empId.toString().padStart(4, '0')) }}</span>
-  <span><label>Resource Name:</label> {{employeeDetails.employee_Name}}</span>
-  <span><label>Designation:</label> {{employeeDetails.designation_Name}}</span>
-  <span><label>Reporting To:</label> {{employeeDetails.reportingToName}}</span>
-  <span><label>Billable:</label> {{employeeDetails.billable}}</span>
-  <span><label>Technology/Skill:</label> {{employeeDetails.skills}}</span>
-  <span><label>Project Allocation:</label> {{employeeDetails.projects}}</span>
-  <span><label>Location:</label> {{employeeDetails.location_Name}}</span>
-  <span><label>Email Id:</label> {{employeeDetails.emailId}}</span>
-  <span><label>CTE DOJ:</label> {{employeeDetails.ctE_DOJ}}</span>
-  <span><label>Remarks:</label> {{employeeDetails.remarks}}</span>
-  
+
+<div class="resource-details-content">
+  <!-- Details Header -->
+  <div class="details-header">
+    <div class="header-icon">
+      <mat-icon>person</mat-icon>
+    </div>
+    <h1 class="details-title">Resource Details</h1>
+    <p class="details-subtitle">Complete information about the resource</p>
+  </div>
+
+  <!-- Details Container -->
+  <div class="details-container" *ngIf="employeeDetails">
+    <div class="details-content">
+      <div class="details-grid">
+        
+        <!-- EMP ID -->
+        <div class="detail-item emp-id">
+          <div class="detail-label">
+            <mat-icon class="icon">badge</mat-icon>
+            EMP ID
+          </div>
+          <div class="detail-value">{{ 'E' + (employeeDetails.empId.toString().padStart(4, '0')) }}</div>
+        </div>
+
+        <!-- Resource Name -->
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon class="icon">person</mat-icon>
+            Resource Name
+          </div>
+          <div class="detail-value">{{ employeeDetails.employee_Name }}</div>
+        </div>
+
+        <!-- Designation -->
+        <div class="detail-item">
+          <div class="detail-label">
+
+            <mat-icon class="icon">work</mat-icon>
+            Designation
+          </div>
+          <div class="detail-value">{{ employeeDetails.designation_Name }}</div>
+        </div>
+
+        <!-- Reporting To -->
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon class="icon">supervisor_account</mat-icon>
+            Reporting To
+          </div>
+          <div class="detail-value">{{ employeeDetails.reportingToName }}</div>
+        </div>
+
+        <!-- Billable -->
+        <div class="detail-item billable">
+          <div class="detail-label">
+            <mat-icon class="icon">monetization_on</mat-icon>
+            Billable
+          </div>
+          <div class="detail-value" 
+               [class.billable-yes]="employeeDetails.billable === 'Yes'"
+               [class.billable-no]="employeeDetails.billable === 'No'">
+            {{ employeeDetails.billable }}
+          </div>
+        </div>
+
+        <!-- Location -->
+        <div class="detail-item">
+          <div class="detail-label">
+            <mat-icon class="icon">location_on</mat-icon>
+            Location
+          </div>
+          <div class="detail-value">{{ employeeDetails.location_Name }}</div>
+        </div>
+
+        <!-- Email -->
+        <div class="detail-item email">
+          <div class="detail-label">
+            <mat-icon class="icon">email</mat-icon>
+            Email
+          </div>
+          <a [href]="'mailto:' + employeeDetails.emailId" class="detail-value">
+            {{ employeeDetails.emailId }}
+          </a>
+        </div>
+
+        <!-- Date of Joining -->
+        <div class="detail-item date">
+          <div class="detail-label">
+            <mat-icon class="icon">event</mat-icon>
+            CTE DOJ
+          </div>
+          <div class="detail-value">{{ employeeDetails.ctE_DOJ | date:'mediumDate' }}</div>
+        </div>
+
+        <!-- Technology/Skills -->
+        <div class="detail-item skills full-width">
+          <div class="detail-label">
+            <mat-icon class="icon">build</mat-icon>
+            Technology/Skills
+          </div>
+          <div class="detail-value">{{employeeDetails.skills || 'No skills specified'}}</div>
+        </div>
+
+        <!-- Project Allocation -->
+        <div class="detail-item projects full-width">
+          <div class="detail-label">
+            <mat-icon class="icon">assignment</mat-icon>
+            Project Allocation
+          </div>
+          <div class="detail-value">{{ employeeDetails.projects || 'No projects allocated' }}</div>
+            
+        </div>
+
+        <!-- Remarks -->
+        <div class="detail-item remarks full-width">
+          <div class="detail-label">
+            <mat-icon class="icon">comment</mat-icon>
+            Remarks
+          </div>
+          <div class="detail-value">
+            {{ employeeDetails.remarks || 'No remarks available' }}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="details-actions">
+        <button class="btn btn-back" (click)="onBack()">
+          <mat-icon>arrow_back</mat-icon>
+          <span>Back</span>
+        </button>
+        <button class="btn btn-edit" (click)="onEdit()" *ngIf="canEdit">
+          <mat-icon>edit</mat-icon>
+          <span>Edit Resource</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="!employeeDetails">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading resource details...</div>
+  </div>
 </div>
