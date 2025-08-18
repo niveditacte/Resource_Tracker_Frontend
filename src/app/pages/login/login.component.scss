@@ -90,68 +90,73 @@ label {
     padding: 0.6rem;
     font-size: 1rem;
 }
-
-/* Divider */
-.divider {
-    text-align: center;
-    margin: 1.2rem 0;
-    position: relative;
-    color: #999;
+.error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 1rem;
 }
 
-.divider::before,
-.divider::after {
-    content: '';
-    height: 1px;
-    background: #ccc;
-    position: absolute;
-    top: 50%;
-    width: 40%;
-}
+// /* Divider */
+// .divider {
+//     text-align: center;
+//     margin: 1.2rem 0;
+//     position: relative;
+//     color: #999;
+// }
 
-.divider::before {
-    left: 0;
-}
+// .divider::before,
+// .divider::after {
+//     content: '';
+//     height: 1px;
+//     background: #ccc;
+//     position: absolute;
+//     top: 50%;
+//     width: 40%;
+// }
 
-.divider::after {
-    right: 0;
-}
+// .divider::before {
+//     left: 0;
+// }
 
-/* Google button */
-.google-btn {
-    width: 100%;
-    border: 1px solid #ccc;
-    background: white;
-    padding: 0.6rem;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: 500;
-    cursor: pointer;
-}
+// .divider::after {
+//     right: 0;
+// }
 
-.google-btn img {
-    width: 18px;
-    height: 18px;
-}
+// /* Google button */
+// .google-btn {
+//     width: 100%;
+//     border: 1px solid #ccc;
+//     background: white;
+//     padding: 0.6rem;
+//     border-radius: 20px;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     gap: 8px;
+//     font-weight: 500;
+//     cursor: pointer;
+// }
 
-/* Links */
-.links {
-    text-align: center;
-    font-size: 0.85rem;
-    margin-top: 1.5rem;
-}
+// .google-btn img {
+//     width: 18px;
+//     height: 18px;
+// }
 
-.links a {
-    color: #1e2b2e;
-    text-decoration: none;
-}
+// /* Links */
+// .links {
+//     text-align: center;
+//     font-size: 0.85rem;
+//     margin-top: 1.5rem;
+// }
 
-.links a:hover {
-    text-decoration: underline;
-}
+// .links a {
+//     color: #1e2b2e;
+//     text-decoration: none;
+// }
+
+// .links a:hover {
+//     text-decoration: underline;
+// }
 
 /* Responsive */
 @media (max-width: 768px) {

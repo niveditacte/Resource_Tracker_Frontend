@@ -7,14 +7,10 @@
 
     <!-- Main Grid Card -->
     <div class="k-card k-shadow-lg grid-card">
-        
+
         <!-- Bulk Actions -->
         <div class="bulk-actions">
-            <button 
-                kendoButton 
-                look="flat" 
-                class="bulk-edit-btn"
-                [disabled]="selectedEmpIds.length === 0" 
+            <button kendoButton look="flat" class="bulk-edit-btn" [disabled]="selectedEmpIds.length === 0"
                 (click)="showBulkEditDialog = true">
                 <mat-icon>edit</mat-icon>
                 <span>Edit Selected ({{selectedEmpIds.length}})</span>
@@ -22,56 +18,44 @@
         </div>
 
         <!-- Kendo Grid -->
-        <kendo-grid
-            class="k-grid themed-grid"
-            [kendoGridBinding]="resourcesArray"
-            [filterable]="true"
-            [sortable]="true"
-            [groupable]="true"
-            [pageable]="{
+        <kendo-grid class="k-grid themed-grid" [kendoGridBinding]="resourcesArray" [filterable]="true" [sortable]="true"
+            [groupable]="true" [pageable]="{
                 buttonCount: 5,
                 info: true,
                 type: 'numeric',
                 pageSizes: true,
                 previousNext: true
-            }"
-            [pageSize]="5"
-            [reorderable]="true"
-            [resizable]="true"
-            [columnMenu]="true"
-            [(selectedKeys)]="selectedEmpIds"
-            kendoGridSelectBy="empId"
+            }" [pageSize]="5" [reorderable]="true" [resizable]="true" [columnMenu]="true"
+            [(selectedKeys)]="selectedEmpIds" kendoGridSelectBy="empId"
             [selectable]="{checkboxOnly: true, mode: 'multiple'}">
 
             <!-- Checkbox Column -->
             <kendo-grid-checkbox-column [width]="50" [columnMenu]="false"></kendo-grid-checkbox-column>
-            
+
             <!-- EMP ID Column -->
             <kendo-grid-column field="empId" title="EMP ID">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <span class="emp-id-badge">{{ 'E' + (dataItem.empId.toString().padStart(4, '0')) }}</span>
                 </ng-template>
             </kendo-grid-column>
-            
+
             <!-- Resource Name Column -->
             <kendo-grid-column field="employee_Name" title="Resource Name">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <span class="resource-name">{{ dataItem.employee_Name }}</span>
                 </ng-template>
             </kendo-grid-column>
-            
+
             <!-- Billable Column -->
             <kendo-grid-column field="billable" title="Billable">
                 <ng-template kendoGridCellTemplate let-dataItem>
-                    <span 
-                        class="billable-status" 
-                        [class.billable-yes]="dataItem.billable === 'Yes'" 
+                    <span class="billable-status" [class.billable-yes]="dataItem.billable === 'Yes'"
                         [class.billable-no]="dataItem.billable === 'No'">
                         {{ dataItem.billable }}
                     </span>
                 </ng-template>
             </kendo-grid-column>
-            
+
             <!-- Other Columns -->
             <kendo-grid-column field="designation_Name" title="Designation"></kendo-grid-column>
             <kendo-grid-column field="reportingToName" title="Reporting To"></kendo-grid-column>
@@ -86,29 +70,18 @@
             <kendo-grid-column title="Actions" [width]="240" [columnMenu]="false">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div class="action-buttons">
-                        <button 
-                            *ngIf="isAdmin || isManager" 
-                            class="action-btn edit-btn"
-                            kendoButton 
-                            look="flat"
+                        <button *ngIf="isAdmin || isManager || isHR" class="action-btn edit-btn" kendoButton look="flat"
                             (click)="onEdit(dataItem.empId)">
                             <mat-icon>edit</mat-icon>
                             <span>Edit</span>
                         </button>
-                        <button 
-                            class="action-btn view-btn"
-                            kendoButton 
-                            look="flat"
+                        <button class="action-btn view-btn" kendoButton look="flat"
                             (click)="onShowClick(dataItem.empId)">
                             <mat-icon>visibility</mat-icon>
                             <span>View</span>
                         </button>
-                        <button 
-                            *ngIf="isAdmin || isManager || isHR" 
-                            class="action-btn delete-btn"
-                            kendoButton 
-                            look="flat"
-                            (click)="openDeleteDialog(dataItem.empId)">
+                        <button *ngIf="isAdmin || isManager || isHR" class="action-btn delete-btn" kendoButton
+                            look="flat" (click)="openDeleteDialog(dataItem.empId)">
                             <mat-icon>delete</mat-icon>
                             <span>Delete</span>
                         </button>
@@ -134,10 +107,7 @@
 
                     <div *ngIf="field.selected" class="field-input">
                         <!-- Dropdown Fields -->
-                        <select 
-                            *ngIf="isDropdown(field.key)" 
-                            [(ngModel)]="field.value" 
-                            [name]="field.key" 
+                        <select *ngIf="isDropdown(field.key)" [(ngModel)]="field.value" [name]="field.key"
                             class="themed-select">
                             <option [ngValue]="''" disabled selected>Select {{ field.label }}</option>
                             <option *ngFor="let option of getOptions(field.key)" [ngValue]="option[field.key]">
@@ -155,12 +125,8 @@
                         </ng-container>
 
                         <!-- Text Fields -->
-                        <input 
-                            *ngIf="!isDropdown(field.key) && field.key !== 'billable'" 
-                            [(ngModel)]="field.value" 
-                            [name]="field.key" 
-                            class="themed-input" 
-                            placeholder="New {{ field.label }}" />
+                        <input *ngIf="!isDropdown(field.key) && field.key !== 'billable'" [(ngModel)]="field.value"
+                            [name]="field.key" class="themed-input" placeholder="New {{ field.label }}" />
                     </div>
                 </div>
 
@@ -205,7 +171,7 @@
                 <mat-icon>info</mat-icon>
                 <span>Confirm Bulk Update</span>
             </kendo-dialog-titlebar>
-            
+
             <div class="dialog-content confirmation-content">
                 <p class="message">
                     Are you sure you want to update

@@ -41,7 +41,7 @@ export class LoginComponent {
     } else {
       localStorage.removeItem('savedLogin');
     }
-    
+
     this.authService.login(this.loginValue, this.password).subscribe({
       next: (res) => {
         console.log(res);
@@ -50,6 +50,8 @@ export class LoginComponent {
           localStorage.setItem('token', res.token);
           console.log(this.authService.getUserRole());
           this.router.navigate(['/Home']);
+          alert('Login successful!');
+          
 
         }
         else {

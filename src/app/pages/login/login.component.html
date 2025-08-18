@@ -73,6 +73,10 @@
                     Log in
                 </button>
 
+                <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+                
+            </form>
+
                 <!-- <div class="divider">
                     <span>or</span>
                 </div>
@@ -87,7 +91,7 @@
                     Forgot your password? <a href="#">Recover ></a>
                 </p> -->
 
-            </form>
+           
         </div>
     </div>
 </div>
