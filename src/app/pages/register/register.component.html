@@ -2,8 +2,8 @@
         <div class="register-container">
             <h2>Register User</h2>
             
-            <form class="register-form">
-                <div class="form-group">
+            <form class="register-form" [formGroup]="registerform" (ngSubmit)="onRegister()">
+                <div  class="form-group">
                     <label for="username">Username</label>
                     <input 
                         type="text" 
@@ -38,12 +38,11 @@
 
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <select id="role" class="themed-dropdown" required>
+                    <select id="role" [value]="null" formControlName="roleId" class="themed-dropdown" required>
                         <option value="" disabled selected>Select Role</option>
-                        <option value="1">Administrator</option>
-                        <option value="2">Manager</option>
-                        <option value="3">HR</option>
-                        <option value="4">Employee</option>
+                        <option *ngFor="let role of roles" [value]="role.roleId">
+                            {{ role.role }}
+                        </option>
                     </select>
                 </div>
 
