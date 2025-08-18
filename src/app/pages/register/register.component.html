@@ -9,6 +9,7 @@
                         type="text" 
                         id="username"
                         class="themed-input" 
+                        formControlName="username"
                         placeholder="Enter username" 
                         required
                     />
@@ -20,6 +21,7 @@
                         type="email" 
                         id="email"
                         class="themed-input" 
+                        formControlName="email"
                         placeholder="Enter email" 
                         required
                     />
@@ -31,6 +33,7 @@
                         type="password" 
                         id="password"
                         class="themed-input" 
+                        formControlName="password"
                         placeholder="Enter password" 
                         required
                     />
@@ -47,7 +50,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="register-btn">
+                    <button type="submit" class="register-btn" (click)="onRegister()">
                         <mat-icon>check</mat-icon>
                         <span>Register</span>
                     </button>
