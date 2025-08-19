@@ -11,7 +11,7 @@ import { MaincompComponent } from './maincomp/maincomp.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
-    { path: "", redirectTo: "/Home", pathMatch: "full" },
+    { path: "", redirectTo: "/login", pathMatch: "full" },
     {
         path: '', component: MaincompComponent, canActivate: [authGuardGuard],
         children: [
