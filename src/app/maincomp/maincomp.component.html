@@ -16,7 +16,7 @@
                 <span class="nav-text">Export to CSV</span>
             </button>
 
-            <button *ngIf="isAdmin || isManager || isHR" class="nav-item" data-tooltip="Add Resource"
+            <button *ngIf="isAdmin || isHR" class="nav-item" data-tooltip="Add Resource"
                 (click)="NavigateTab('/Add-Edit')">
                 <mat-icon>add</mat-icon>
                 <span class="nav-text">Add Resource</span>

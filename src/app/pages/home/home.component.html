@@ -10,7 +10,7 @@
 
         <!-- Bulk Actions -->
         <div class="bulk-actions">
-            <button kendoButton look="flat" class="bulk-edit-btn" [disabled]="selectedEmpIds.length === 0"
+            <button *ngIf="isAdmin || isManager || isHR" kendoButton look="flat" class="bulk-edit-btn" [disabled]="selectedEmpIds.length === 0"
                 (click)="showBulkEditDialog = true">
                 <mat-icon>edit</mat-icon>
                 <span>Edit Selected ({{selectedEmpIds.length}})</span>
@@ -70,7 +70,7 @@
             <kendo-grid-column title="Actions" [width]="240" [columnMenu]="false">
                 <ng-template kendoGridCellTemplate let-dataItem>
                     <div class="action-buttons">
-                        <button *ngIf="isAdmin || isManager || isHR" class="action-btn edit-btn" kendoButton look="flat"
+                        <button *ngIf="isAdmin || isHR" class="action-btn edit-btn" kendoButton look="flat"
                             (click)="onEdit(dataItem.empId)">
                             <mat-icon>edit</mat-icon>
                             <span>Edit</span>
@@ -80,7 +80,7 @@
                             <mat-icon>visibility</mat-icon>
                             <span>View</span>
                         </button>
-                        <button *ngIf="isAdmin || isManager || isHR" class="action-btn delete-btn" kendoButton
+                        <button *ngIf="isAdmin ||  isHR" class="action-btn delete-btn" kendoButton
                             look="flat" (click)="openDeleteDialog(dataItem.empId)">
                             <mat-icon>delete</mat-icon>
                             <span>Delete</span>
